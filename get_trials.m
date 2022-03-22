@@ -1,4 +1,5 @@
-%% plot with effect block
+%% Create struct with the BOLD signal from the PattComp, CompPatt, 
+%PattComp-->Static-->CompPatt and CompPatt-->Static-->PattComp
 clear all, close all, clc
 
 effects_data = strip(fullfile(' ', 'DATAPOOL', 'home', 'rutebettencourt',...
@@ -10,9 +11,6 @@ data = fullfile(path, 'ROIs_BOLD_timecourse.mat');
 datacon = fullfile(path, 'dynCon_metrics.mat');
 datavols = fullfile(path, 'volume_onset.mat');
 load(data); load(datacon); load(datavols);
-
-comb = combnk(1:7,2);
-idxs = 1:length(comb(:,1));
 
 ROIs = fieldnames(BOLD_denoised_timecourse);
 aux1 = strrep(ROIs,'_roi','');
@@ -37,6 +35,8 @@ end
 for sub=subs
     for run = nruns
         for rr = 1:nROIs
+            trialvol.CompPatt2PattComp.(ROIs{rr}).(subjects{sub}).(runsnames{run-1}) = zeros(52, 2);
+            trialvol.PattComp2CompPatt.(ROIs{rr}).(subjects{sub}).(runsnames{run-1}) = zeros(52, 2);
             for trial = trials
             
                 effect_list_idx = 4*(sub-1)+run-1;
@@ -53,19 +53,126 @@ for sub=subs
                 
                 trialvol.CompPatt.(ROIs{rr}).(subjects{sub}).(runsnames{run-1})(:,trial) = CompPatt;
                 trialvol.PattComp.(ROIs{rr}).(subjects{sub}).(runsnames{run-1})(:,trial) = PattComp;
+                
+                
+                
                 if xx_PattComp(end)>xx_CompPatt(end)
                     xx_full = volmin_CompPatt:(volmin_PattComp+nvols);
                     CompPatt2PattComp = BOLD_denoised_timecourse.(ROIs{rr}).(runs{run})(xx_full,sub);
-                    trialvol.CompPatt2PattComp.(ROIs{rr}).(subjects{sub}).(runsnames{run-1})(:,trial) = CompPatt2PattComp;
+                    
+                    if trialvol.CompPatt2PattComp.(ROIs{rr}).(subjects{sub}).(runsnames{run-1})(:,1)==0
+                        trialvol.CompPatt2PattComp.(ROIs{rr}).(subjects{sub}).(runsnames{run-1})(:,1) = CompPatt2PattComp;
+                    else
+                        trialvol.CompPatt2PattComp.(ROIs{rr}).(subjects{sub}).(runsnames{run-1})(:,2) = CompPatt2PattComp;
+                        
+                    end
                 else
                     xx_full = volmin_PattComp:(volmin_CompPatt+nvols);
                     PattComp2CompPatt = BOLD_denoised_timecourse.(ROIs{rr}).(runs{run})(xx_full,sub);
-                    trialvol.PattComp2CompPatt.(ROIs{rr}).(subjects{sub}).(runsnames{run-1})(:,trial) = PattComp2CompPatt;
+                    
+                    if trialvol.PattComp2CompPatt.(ROIs{rr}).(subjects{sub}).(runsnames{run-1})(:,1)==0
+                        trialvol.PattComp2CompPatt.(ROIs{rr}).(subjects{sub}).(runsnames{run-1})(:,1) = PattComp2CompPatt;
+                    else
+                        trialvol.PattComp2CompPatt.(ROIs{rr}).(subjects{sub}).(runsnames{run-1})(:,2) = PattComp2CompPatt;
+                    end
+                        
                 end
                 
             end
+            meanCompPatt = mean(trialvol.CompPatt.(ROIs{rr}).(subjects{sub}).(runsnames{run-1}),2);
+            meanPattComp = mean(trialvol.PattComp.(ROIs{rr}).(subjects{sub}).(runsnames{run-1}),2);
+            meanCompPatt2PattComp = mean(trialvol.CompPatt2PattComp.(ROIs{rr}).(subjects{sub}).(runsnames{run-1}),2);
+            meanPattComp2CompPatt = mean(trialvol.PattComp2CompPatt.(ROIs{rr}).(subjects{sub}).(runsnames{run-1}),2);
+            
+            trialvol.CompPatt.(ROIs{rr}).(subjects{sub}).mean(:,run-1) = meanCompPatt;
+            trialvol.PattComp.(ROIs{rr}).(subjects{sub}).mean(:,run-1) = meanPattComp;
+            trialvol.CompPatt2PattComp.(ROIs{rr}).(subjects{sub}).mean(:,run-1) = meanCompPatt2PattComp;
+            trialvol.PattComp2CompPatt.(ROIs{rr}).(subjects{sub}).mean(:,run-1) = meanPattComp2CompPatt;
+            
         end
     end
 end
 
-save(fullfile(path,'trialvolumes.mat'), 'trialvol')
+save(fullfile(path,'new_trialvolumes.mat'), 'trialvol')
+
+
+%%
+comb = combnk(1:7,2);
+idxs = 1:length(comb(:,1));
+
+for runi = nruns
+    for idx = idxs
+        for ss=1:25
+            rhosCompPatt = []; rhosPattComp = [];
+            rhosCompPatt2PattComp = []; rhosPattComp2CompPatt = [];
+            SpearmanCompPatt = []; SpearmanPattComp = [];
+            SpearmanCompPatt2PattComp = []; SpearmanPattComp2CompPatt = [];
+            window1 = 1:5;
+            window2 = 1:5;
+            
+                while window1(end)<22
+                    rhoCompPatt = corr(trialvol.CompPatt.(ROIs{comb(idx,1)}).(subjects{ss}).mean(window1,:),...
+                        trialvol.CompPatt.(ROIs{comb(idx,2)}).(subjects{ss}).mean(window1,:));
+                    rhoCompPatt = diag(rhoCompPatt);
+                    rhosCompPatt = [rhosCompPatt rhoCompPatt];
+
+                    rhoPattComp = corr(trialvol.PattComp.(ROIs{comb(idx,1)}).(subjects{ss}).mean(window1,:),...
+                        trialvol.PattComp.(ROIs{comb(idx,2)}).(subjects{ss}).mean(window1,:));
+                    rhoPattComp = diag(rhoPattComp);
+                    rhosPattComp = [rhosPattComp rhoPattComp];
+
+                    rSpearmanCompPatt = corr(trialvol.CompPatt.(ROIs{comb(idx,1)}).(subjects{ss}).mean(window1,:),...
+                        trialvol.CompPatt.(ROIs{comb(idx,2)}).(subjects{ss}).mean(window1,:), 'Type', 'Spearman');
+                    rSpearmanCompPatt = diag(rSpearmanCompPatt);
+                    SpearmanCompPatt = [SpearmanCompPatt rSpearmanCompPatt];
+
+                    rSpearmanPattComp = corr(trialvol.PattComp.(ROIs{comb(idx,1)}).(subjects{ss}).mean(window1,:),...
+                        trialvol.PattComp.(ROIs{comb(idx,2)}).(subjects{ss}).mean(window1,:), 'Type', 'Spearman');
+                    rSpearmanPattComp = diag(rSpearmanPattComp);
+                    SpearmanPattComp = [SpearmanPattComp rSpearmanPattComp];
+
+                    window1 = window1+1;
+
+                end
+
+                while window2(end)<53
+                    rhoCompPatt2PattComp = corr(trialvol.CompPatt2PattComp.(ROIs{comb(idx,1)}).(subjects{ss}).mean(window2,:),...
+                        trialvol.CompPatt2PattComp.(ROIs{comb(idx,2)}).(subjects{ss}).mean(window2,:));
+                    rhoCompPatt2PattComp = diag(rhoCompPatt2PattComp);
+                    rhosCompPatt2PattComp = [rhosCompPatt2PattComp rhoCompPatt2PattComp];
+
+                    rhoPattComp2CompPatt = corr(trialvol.PattComp2CompPatt.(ROIs{comb(idx,1)}).(subjects{ss}).mean(window2,:),...
+                        trialvol.PattComp2CompPatt.(ROIs{comb(idx,2)}).(subjects{ss}).mean(window2,:));
+                    rhoPattComp2CompPatt = diag(rhoPattComp2CompPatt);
+                    rhosPattComp2CompPatt = [rhosPattComp2CompPatt rhoPattComp2CompPatt];
+                    
+                    rSpearmanCompPatt2PattComp = corr(trialvol.CompPatt2PattComp.(ROIs{comb(idx,1)}).(subjects{ss}).mean(window2,:),...
+                        trialvol.CompPatt2PattComp.(ROIs{comb(idx,2)}).(subjects{ss}).mean(window2,:), 'Type', 'Spearman');
+                    rSpearmanCompPatt2PattComp = diag(rSpearmanCompPatt2PattComp);
+                    SpearmanCompPatt2PattComp = [SpearmanCompPatt2PattComp rSpearmanCompPatt2PattComp];
+
+                    rSpearmanPattComp2CompPatt = corr(trialvol.PattComp2CompPatt.(ROIs{comb(idx,1)}).(subjects{ss}).mean(window2,:),...
+                        trialvol.PattComp2CompPatt.(ROIs{comb(idx,2)}).(subjects{ss}).mean(window2,:), 'Type', 'Spearman');
+                    rSpearmanPattComp2CompPatt = diag(rSpearmanPattComp2CompPatt);
+                    SpearmanPattComp2CompPatt = [SpearmanPattComp2CompPatt rSpearmanPattComp2CompPatt];
+                    window2= window2+1;
+
+                end
+        
+            blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_CompPatt2PattComp.(subjects{ss})= rhosCompPatt2PattComp';
+            blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_PattComp2CompPatt.(subjects{ss})= rhosPattComp2CompPatt';
+            blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_CompPatt.(subjects{ss})= rhosCompPatt';
+            blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_PattComp.(subjects{ss})= rhosPattComp';
+            
+            blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrSpearman_CompPatt2PattComp.(subjects{ss})= SpearmanCompPatt2PattComp';
+            blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrSpearman_PattComp2CompPatt.(subjects{ss})= SpearmanPattComp2CompPatt';
+            blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrSpearman_CompPatt.(subjects{ss})= SpearmanCompPatt';
+            blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrSpearman_PattComp.(subjects{ss})= SpearmanPattComp';
+        end
+         
+        
+    end
+
+end
+
+save(fullfile(path,'new_blockmetrics.mat'), 'blockmetrics')
