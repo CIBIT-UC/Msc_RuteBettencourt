@@ -188,79 +188,111 @@ for sub = 1:25
             %NEGATIVE
             xx_Negative_CompPatt = effectblocks.Negative.CompPatt.block(window+5*(run-1),sub);
             if xx_Negative_CompPatt ~= zeros(5,1)
-                yy_Negative_CompPatt = blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_CompPatt.(subjects{sub})(xx_Negative_CompPatt, run);
-                effectblocks.Negative.CompPatt.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson(window+5*(run-1),sub) = yy_Negative_CompPatt;
+                yy_Negative_CompPatt_Pearson = blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_CompPatt.(subjects{sub})(xx_Negative_CompPatt, run);
+                effectblocks.Negative.CompPatt.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson(window+5*(run-1),sub) = yy_Negative_CompPatt_Pearson;
+                yy_Negative_CompPatt_Spearman = blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrSpearman_CompPatt.(subjects{sub})(xx_Negative_CompPatt, run);
+                effectblocks.Negative.CompPatt.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Spearman(window+5*(run-1),sub) = yy_Negative_CompPatt_Spearman;
             else
-                yy_Negative_CompPatt = [NaN; NaN; NaN; NaN; NaN] ;
-                effectblocks.Negative.CompPatt.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson(window+5*(run-1),sub) = yy_Negative_CompPatt;
+                yy_Negative_CompPatt_Pearson = [NaN; NaN; NaN; NaN; NaN] ;
+                effectblocks.Negative.CompPatt.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson(window+5*(run-1),sub) = yy_Negative_CompPatt_Pearson;
+                yy_Negative_CompPatt_Spearman = [NaN; NaN; NaN; NaN; NaN] ;
+                effectblocks.Negative.CompPatt.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Spearman(window+5*(run-1),sub) = yy_Negative_CompPatt_Spearman;
             end
             %POSITIVE
             xx_Positive_CompPatt = effectblocks.Positive.CompPatt.block(window+5*(run-1),sub);
             if xx_Positive_CompPatt ~= zeros(5,1)
-                yy_Positive_CompPatt = blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_CompPatt.(subjects{sub})(xx_Positive_CompPatt, run);
-                effectblocks.Positive.CompPatt.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson(window+5*(run-1),sub) = yy_Positive_CompPatt;
+                yy_Positive_CompPatt_Pearson = blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_CompPatt.(subjects{sub})(xx_Positive_CompPatt, run);
+                effectblocks.Positive.CompPatt.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson(window+5*(run-1),sub) = yy_Positive_CompPatt_Pearson;
+                yy_Positive_CompPatt_Spearman = blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrSpearman_CompPatt.(subjects{sub})(xx_Positive_CompPatt, run);
+                effectblocks.Positive.CompPatt.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Spearman(window+5*(run-1),sub) = yy_Positive_CompPatt_Spearman;
             else
-                yy_Positive_CompPatt = [NaN; NaN; NaN; NaN; NaN] ;
-                effectblocks.Positive.CompPatt.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson(window+5*(run-1),sub) = yy_Positive_CompPatt;
+                yy_Positive_CompPatt_Pearson = [NaN; NaN; NaN; NaN; NaN] ;
+                effectblocks.Positive.CompPatt.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson(window+5*(run-1),sub) = yy_Positive_CompPatt_Pearson;
+                yy_Positive_CompPatt_Spearman = [NaN; NaN; NaN; NaN; NaN] ;
+                effectblocks.Positive.CompPatt.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Spearman(window+5*(run-1),sub) = yy_Positive_CompPatt_Spearman;
             end
             %NULL
             xx_Null_CompPatt = effectblocks.Null.CompPatt.block(window+5*(run-1),sub);
             if xx_Null_CompPatt ~= zeros(5,1)
-                yy_Null_CompPatt = blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_CompPatt.(subjects{sub})(xx_Null_CompPatt, run);
-                effectblocks.Null.CompPatt.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson(window+5*(run-1),sub) = yy_Null_CompPatt;
+                yy_Null_CompPatt_Pearson = blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_CompPatt.(subjects{sub})(xx_Null_CompPatt, run);
+                effectblocks.Null.CompPatt.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson(window+5*(run-1),sub) = yy_Null_CompPatt_Pearson;
+                yy_Null_CompPatt_Spearman = blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrSpearman_CompPatt.(subjects{sub})(xx_Null_CompPatt, run);
+                effectblocks.Null.CompPatt.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Spearman(window+5*(run-1),sub) = yy_Null_CompPatt_Spearman;
             else
-                yy_Null_CompPatt = [NaN; NaN; NaN; NaN; NaN] ;
-                effectblocks.Null.CompPatt.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson(window+5*(run-1),sub) = yy_Null_CompPatt;
+                yy_Null_CompPatt_Pearson = [NaN; NaN; NaN; NaN; NaN] ;
+                effectblocks.Null.CompPatt.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson(window+5*(run-1),sub) = yy_Null_CompPatt_Pearson;
+                yy_Null_CompPatt_Spearman = [NaN; NaN; NaN; NaN; NaN] ;
+                effectblocks.Null.CompPatt.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Spearman(window+5*(run-1),sub) = yy_Null_CompPatt_Spearman;
             end
             %UNDEFINED
             xx_Undefined_CompPatt = effectblocks.Undefined.CompPatt.block(window+5*(run-1),sub);
             if xx_Undefined_CompPatt ~= zeros(5,1)
-                yy_Undefined_CompPatt = blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_CompPatt.(subjects{sub})(xx_Undefined_CompPatt, run);
-                effectblocks.Undefined.CompPatt.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson(window+5*(run-1),sub) = yy_Undefined_CompPatt;  
+                yy_Undefined_CompPatt_Pearson = blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_CompPatt.(subjects{sub})(xx_Undefined_CompPatt, run);
+                effectblocks.Undefined.CompPatt.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson(window+5*(run-1),sub) = yy_Undefined_CompPatt_Pearson; 
+                yy_Undefined_CompPatt_Spearman = blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrSpearman_CompPatt.(subjects{sub})(xx_Undefined_CompPatt, run);
+                effectblocks.Undefined.CompPatt.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Spearman(window+5*(run-1),sub) = yy_Undefined_CompPatt_Spearman;  
             else
-                yy_Undefined_CompPatt = [NaN; NaN; NaN; NaN; NaN] ;
-                effectblocks.Undefined.CompPatt.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson(window+5*(run-1),sub) = yy_Undefined_CompPatt;
+                yy_Undefined_CompPatt_Pearson = [NaN; NaN; NaN; NaN; NaN] ;
+                effectblocks.Undefined.CompPatt.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson(window+5*(run-1),sub) = yy_Undefined_CompPatt_Pearson;
+                yy_Undefined_CompPatt_Spearman = [NaN; NaN; NaN; NaN; NaN] ;
+                effectblocks.Undefined.CompPatt.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Spearman(window+5*(run-1),sub) = yy_Undefined_CompPatt_Spearman;
             end
             
             %PattComp
             %NEGATIVE
             xx_Negative_PattComp = effectblocks.Negative.PattComp.block(window+5*(run-1),sub);
             if xx_Negative_PattComp ~= zeros(5,1)
-                yy_Negative_PattComp = blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_PattComp.(subjects{sub})(xx_Negative_PattComp, run);
-                effectblocks.Negative.PattComp.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson(window+5*(run-1),sub) = yy_Negative_PattComp;
+                yy_Negative_PattComp_Pearson = blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_PattComp.(subjects{sub})(xx_Negative_PattComp, run);
+                effectblocks.Negative.PattComp.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson(window+5*(run-1),sub) = yy_Negative_PattComp_Pearson;
+                yy_Negative_PattComp_Spearman = blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrSpearman_PattComp.(subjects{sub})(xx_Negative_PattComp, run);
+                effectblocks.Negative.PattComp.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Spearman(window+5*(run-1),sub) = yy_Negative_PattComp_Spearman;
             else
-                yy_Negative_PattComp = [NaN; NaN; NaN; NaN; NaN] ;
-                effectblocks.Negative.PattComp.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson(window+5*(run-1),sub) = yy_Negative_PattComp;
+                yy_Negative_PattComp_Pearson = [NaN; NaN; NaN; NaN; NaN] ;
+                effectblocks.Negative.PattComp.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson(window+5*(run-1),sub) = yy_Negative_PattComp_Pearson;
+                yy_Negative_PattComp_Spearman = [NaN; NaN; NaN; NaN; NaN] ;
+                effectblocks.Negative.PattComp.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Spearman(window+5*(run-1),sub) = yy_Negative_PattComp_Spearman;
             end
             
             %POSITIVE
             xx_Positive_PattComp = effectblocks.Positive.PattComp.block(window+5*(run-1),sub);
             if xx_Positive_PattComp ~= zeros(5,1)
-                yy_Positive_PattComp = blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_PattComp.(subjects{sub})(xx_Positive_PattComp, run);
-                effectblocks.Positive.PattComp.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson(window+5*(run-1),sub) = yy_Positive_PattComp;
+                yy_Positive_PattComp_Pearson = blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_PattComp.(subjects{sub})(xx_Positive_PattComp, run);
+                effectblocks.Positive.PattComp.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson(window+5*(run-1),sub) = yy_Positive_PattComp_Pearson;
+                yy_Positive_PattComp_Spearman = blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrSpearman_PattComp.(subjects{sub})(xx_Positive_PattComp, run);
+                effectblocks.Positive.PattComp.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Spearman(window+5*(run-1),sub) = yy_Positive_PattComp_Spearman;
             else
-                yy_Positive_PattComp = [NaN; NaN; NaN; NaN; NaN] ;
-                effectblocks.Positive.PattComp.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson(window+5*(run-1),sub) = yy_Positive_PattComp;
+                yy_Positive_PattComp_Pearson = [NaN; NaN; NaN; NaN; NaN] ;
+                effectblocks.Positive.PattComp.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson(window+5*(run-1),sub) = yy_Positive_PattComp_Pearson;
+                yy_Positive_PattComp_Spearman = [NaN; NaN; NaN; NaN; NaN] ;
+                effectblocks.Positive.Spearman.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson(window+5*(run-1),sub) = yy_Positive_PattComp_Spearman;
             end
             
             %NULL
             xx_Null_PattComp = effectblocks.Null.PattComp.block(window+5*(run-1),sub);
             if xx_Null_PattComp ~= zeros(5,1)
-                yy_Null_PattComp = blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_PattComp.(subjects{sub})(xx_Null_PattComp, run);
-                effectblocks.Null.PattComp.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson(window+5*(run-1),sub) = yy_Null_PattComp;
+                yy_Null_PattComp_Pearson = blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_PattComp.(subjects{sub})(xx_Null_PattComp, run);
+                effectblocks.Null.PattComp.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson(window+5*(run-1),sub) = yy_Null_PattComp_Pearson;
+                yy_Null_PattComp_Spearman = blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrSpearman_PattComp.(subjects{sub})(xx_Null_PattComp, run);
+                effectblocks.Null.PattComp.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Spearman(window+5*(run-1),sub) = yy_Null_PattComp_Spearman;
             else
-                yy_Null_PattComp = [NaN; NaN; NaN; NaN; NaN] ;
-                effectblocks.Null.PattComp.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson(window+5*(run-1),sub) = yy_Null_PattComp;
+                yy_Null_PattComp_Pearson = [NaN; NaN; NaN; NaN; NaN] ;
+                effectblocks.Null.PattComp.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson(window+5*(run-1),sub) = yy_Null_PattComp_Pearson;
+                yy_Null_PattComp_Spearman = [NaN; NaN; NaN; NaN; NaN] ;
+                effectblocks.Null.PattComp.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Spearman(window+5*(run-1),sub) = yy_Null_PattComp_Spearman;
             end
             
             %UNDEFINED
             xx_Undefined_PattComp = effectblocks.Undefined.PattComp.block(window+5*(run-1),sub);
             if xx_Undefined_PattComp ~= zeros(5,1)
-                yy_Undefined_PattComp = blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_PattComp.(subjects{sub})(xx_Undefined_PattComp, run);
-                effectblocks.Undefined.PattComp.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson(window+5*(run-1),sub) = yy_Undefined_PattComp;  
+                yy_Undefined_PattComp_Pearson = blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_PattComp.(subjects{sub})(xx_Undefined_PattComp, run);
+                effectblocks.Undefined.PattComp.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson(window+5*(run-1),sub) = yy_Undefined_PattComp_Pearson;  
+                yy_Undefined_PattComp_Spearman = blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrSpearman_PattComp.(subjects{sub})(xx_Undefined_PattComp, run);
+                effectblocks.Undefined.PattComp.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Spearman(window+5*(run-1),sub) = yy_Undefined_PattComp_Spearman;  
             else
-                yy_Undefined_PattComp = [NaN; NaN; NaN; NaN; NaN] ;
-                effectblocks.Undefined.PattComp.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson(window+5*(run-1),sub) = yy_Undefined_PattComp;
+                yy_Undefined_PattComp_Pearson = [NaN; NaN; NaN; NaN; NaN] ;
+                effectblocks.Undefined.PattComp.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson(window+5*(run-1),sub) = yy_Undefined_PattComp_Pearson;
+                yy_Undefined_PattComp_Spearman = [NaN; NaN; NaN; NaN; NaN] ;
+                effectblocks.Undefined.PattComp.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Spearman(window+5*(run-1),sub) = yy_Undefined_PattComp_Spearman;
             end           
         end
     end        
@@ -274,47 +306,48 @@ if ~exist(path2, 'dir')
 end
 
 for idx = idxs
+    %PEARSON CORRELATION
     %CompPatt
     %Calculates the mean for each line in each condition
-    NegCompPatt = mean(effectblocks.Negative.CompPatt.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson,2, 'omitnan');
-    PosCompPatt = mean(effectblocks.Positive.CompPatt.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson,2, 'omitnan');
-    NulCompPatt = mean(effectblocks.Null.CompPatt.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson,2, 'omitnan');
-    UndCompPatt = mean(effectblocks.Undefined.CompPatt.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson,2, 'omitnan');
+    NegCompPatt_Pearson = mean(effectblocks.Negative.CompPatt.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson,2, 'omitnan');
+    PosCompPatt_Pearson = mean(effectblocks.Positive.CompPatt.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson,2, 'omitnan');
+    NulCompPatt_Pearson = mean(effectblocks.Null.CompPatt.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson,2, 'omitnan');
+    UndCompPatt_Pearson = mean(effectblocks.Undefined.CompPatt.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson,2, 'omitnan');
     
     %Creates 5x4 double with the mean values for each run
-    NegativeCompPatt = [NegCompPatt(1:5) NegCompPatt(6:10) NegCompPatt(11:15) NegCompPatt(16:20)];
-    PositiveCompPatt = [PosCompPatt(1:5) PosCompPatt(6:10) PosCompPatt(11:15) PosCompPatt(16:20)];
-    NullCompPatt = [NulCompPatt(1:5) NulCompPatt(6:10) NulCompPatt(11:15) NulCompPatt(16:20)];
-    UndefinedCompPatt = [UndCompPatt(1:5) UndCompPatt(6:10) UndCompPatt(11:15) UndCompPatt(16:20)];
+    NegativeCompPatt_Pearson = [NegCompPatt_Pearson(1:5) NegCompPatt_Pearson(6:10) NegCompPatt_Pearson(11:15) NegCompPatt_Pearson(16:20)];
+    PositiveCompPatt_Pearson = [PosCompPatt_Pearson(1:5) PosCompPatt_Pearson(6:10) PosCompPatt_Pearson(11:15) PosCompPatt_Pearson(16:20)];
+    NullCompPatt_Pearson = [NulCompPatt_Pearson(1:5) NulCompPatt_Pearson(6:10) NulCompPatt_Pearson(11:15) NulCompPatt_Pearson(16:20)];
+    UndefinedCompPatt_Pearson = [UndCompPatt_Pearson(1:5) UndCompPatt_Pearson(6:10) UndCompPatt_Pearson(11:15) UndCompPatt_Pearson(16:20)];
     
     %Creates a 5x1 double with the mean correlation values for the effect block
-    mNEGCompPatt = mean(NegativeCompPatt, 2, 'omitnan');
-    mPOSCompPatt = mean(PositiveCompPatt, 2, 'omitnan');
-    mNULLCompPatt = mean(NullCompPatt, 2, 'omitnan');
-    mUNDEFINEDCompPatt = mean(UndefinedCompPatt, 2, 'omitnan');
+    mNEGCompPatt_Pearson = mean(NegativeCompPatt_Pearson, 2, 'omitnan');
+    mPOSCompPatt_Pearson = mean(PositiveCompPatt_Pearson, 2, 'omitnan');
+    mNULLCompPatt_Pearson = mean(NullCompPatt_Pearson, 2, 'omitnan');
+    mUNDEFINEDCompPatt_Pearson = mean(UndefinedCompPatt_Pearson, 2, 'omitnan');
     
     %PattComp
-    NegPattComp = mean(effectblocks.Negative.PattComp.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson,2, 'omitnan');
-    PosPattComp = mean(effectblocks.Positive.PattComp.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson,2, 'omitnan');
-    NulPattComp = mean(effectblocks.Null.PattComp.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson,2, 'omitnan');
-    UndPattComp = mean(effectblocks.Undefined.PattComp.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson,2, 'omitnan');
+    NegPattComp_Pearson = mean(effectblocks.Negative.PattComp.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson,2, 'omitnan');
+    PosPattComp_Pearson = mean(effectblocks.Positive.PattComp.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson,2, 'omitnan');
+    NulPattComp_Pearson = mean(effectblocks.Null.PattComp.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson,2, 'omitnan');
+    UndPattComp_Pearson = mean(effectblocks.Undefined.PattComp.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Pearson,2, 'omitnan');
 
-    NegativePattComp = [NegPattComp(1:5) NegPattComp(6:10) NegPattComp(11:15) NegPattComp(16:20)];
-    PositivePattComp = [PosPattComp(1:5) PosPattComp(6:10) PosPattComp(11:15) PosPattComp(16:20)];
-    NullPattComp = [NulPattComp(1:5) NulPattComp(6:10) NulPattComp(11:15) NulPattComp(16:20)];
-    UndefinedPattComp = [UndPattComp(1:5) UndPattComp(6:10) UndPattComp(11:15) UndPattComp(16:20)];
+    NegativePattComp_Pearson = [NegPattComp_Pearson(1:5) NegPattComp_Pearson(6:10) NegPattComp_Pearson(11:15) NegPattComp_Pearson(16:20)];
+    PositivePattComp_Pearson = [PosPattComp_Pearson(1:5) PosPattComp_Pearson(6:10) PosPattComp_Pearson(11:15) PosPattComp_Pearson(16:20)];
+    NullPattComp_Pearson = [NulPattComp_Pearson(1:5) NulPattComp_Pearson(6:10) NulPattComp_Pearson(11:15) NulPattComp_Pearson(16:20)];
+    UndefinedPattComp_Pearson = [UndPattComp_Pearson(1:5) UndPattComp_Pearson(6:10) UndPattComp_Pearson(11:15) UndPattComp_Pearson(16:20)];
 
-    mNEGPattComp = mean(NegativePattComp, 2, 'omitnan');
-    mPOSPattComp = mean(PositivePattComp, 2, 'omitnan');
-    mNULLPattComp = mean(NullPattComp, 2, 'omitnan');
-    mUNDEFINEDPattComp = mean(UndefinedPattComp, 2, 'omitnan');
+    mNEGPattComp_Pearson = mean(NegativePattComp_Pearson, 2, 'omitnan');
+    mPOSPattComp_Pearson = mean(PositivePattComp_Pearson, 2, 'omitnan');
+    mNULLPattComp_Pearson = mean(NullPattComp_Pearson, 2, 'omitnan');
+    mUNDEFINEDPattComp_Pearson = mean(UndefinedPattComp_Pearson, 2, 'omitnan');
     
     figuren = figure(idx);
     subplot 211
-    plot(1:5, mNEGCompPatt, '-v',...
-        1:5, mPOSCompPatt, '-+',...
-        1:5, mNULLCompPatt, '-o',...
-        1:5, mUNDEFINEDCompPatt, '-s')
+    plot(1:5, mNEGCompPatt_Pearson, '-v',...
+        1:5, mPOSCompPatt_Pearson, '-+',...
+        1:5, mNULLCompPatt_Pearson, '-o',...
+        1:5, mUNDEFINEDCompPatt_Pearson, '-s')
     
     %legend('Negative hysteresis', 'Positive Hysteresis', 'Null', 'Undefined')
     title(sprintf('Effect block in  CohInc \n %s - %s', string(ROIs_clean{comb(idx,1)}),string(ROIs_clean{comb(idx,2)})));
@@ -322,10 +355,10 @@ for idx = idxs
     ylim([-1 1])
     
     subplot 212
-    plot(1:5, mNEGPattComp, '-v',...
-        1:5, mPOSPattComp, '-+',...
-        1:5, mNULLPattComp, '-o',...
-        1:5, mUNDEFINEDPattComp, '-s')
+    plot(1:5, mNEGPattComp_Pearson, '-v',...
+        1:5, mPOSPattComp_Pearson, '-+',...
+        1:5, mNULLPattComp_Pearson, '-o',...
+        1:5, mUNDEFINEDPattComp_Pearson, '-s')
     
     lgd = legend('Negative hysteresis', 'Positive Hysteresis', 'Null', 'Undefined', 'Position', [0.5 0.04 0.01 0.01]);
     lgd.NumColumns = 4;
@@ -335,8 +368,75 @@ for idx = idxs
     
 
     
-     saveas(figuren, fullfile(path2,sprintf('%s_%s_meaneffectblock.png',...
-                 string(ROIs_clean(comb(idx,2))), string(ROIs_clean(comb(idx,1))))))
+    saveas(figuren, fullfile(path2,sprintf('%s_%s_meaneffectblock.png',...
+        string(ROIs_clean(comb(idx,2))), string(ROIs_clean(comb(idx,1))))));
+     
+    %SPEARMAN CORRELATION
+    %CompPatt
+    %Calculates the mean for each line in each condition
+    NegCompPatt_Spearman = mean(effectblocks.Negative.CompPatt.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Spearman,2, 'omitnan');
+    PosCompPatt_Spearman = mean(effectblocks.Positive.CompPatt.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Spearman,2, 'omitnan');
+    NulCompPatt_Spearman = mean(effectblocks.Null.CompPatt.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Spearman,2, 'omitnan');
+    UndCompPatt_Spearman = mean(effectblocks.Undefined.CompPatt.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Spearman,2, 'omitnan');
+    
+    %Creates 5x4 double with the mean values for each run
+    NegativeCompPatt_Spearman = [NegCompPatt_Spearman(1:5) NegCompPatt_Spearman(6:10) NegCompPatt_Spearman(11:15) NegCompPatt_Spearman(16:20)];
+    PositiveCompPatt_Spearman = [PosCompPatt_Spearman(1:5) PosCompPatt_Spearman(6:10) PosCompPatt_Spearman(11:15) PosCompPatt_Spearman(16:20)];
+    NullCompPatt_Spearman = [NulCompPatt_Spearman(1:5) NulCompPatt_Spearman(6:10) NulCompPatt_Spearman(11:15) NulCompPatt_Spearman(16:20)];
+    UndefinedCompPatt_Spearman = [UndCompPatt_Spearman(1:5) UndCompPatt_Spearman(6:10) UndCompPatt_Spearman(11:15) UndCompPatt_Spearman(16:20)];
+    
+    %Creates a 5x1 double with the mean correlation values for the effect block
+    mNEGCompPatt_Spearman = mean(NegativeCompPatt_Spearman, 2, 'omitnan');
+    mPOSCompPatt_Spearman = mean(PositiveCompPatt_Spearman, 2, 'omitnan');
+    mNULLCompPatt_Spearman = mean(NullCompPatt_Spearman, 2, 'omitnan');
+    mUNDEFINEDCompPatt_Spearman = mean(UndefinedCompPatt_Spearman, 2, 'omitnan');
+    
+    %PattComp
+    NegPattComp_Spearman = mean(effectblocks.Negative.PattComp.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Spearman,2, 'omitnan');
+    PosPattComp_Spearman = mean(effectblocks.Positive.PattComp.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Spearman,2, 'omitnan');
+    NulPattComp_Spearman = mean(effectblocks.Null.PattComp.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Spearman,2, 'omitnan');
+    UndPattComp_Spearman = mean(effectblocks.Undefined.PattComp.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).Spearman,2, 'omitnan');
+
+    NegativePattComp_Spearman = [NegPattComp_Spearman(1:5) NegPattComp_Spearman(6:10) NegPattComp_Spearman(11:15) NegPattComp_Spearman(16:20)];
+    PositivePattComp_Spearman = [PosPattComp_Spearman(1:5) PosPattComp_Spearman(6:10) PosPattComp_Spearman(11:15) PosPattComp_Spearman(16:20)];
+    NullPattComp_Spearman = [NulPattComp_Spearman(1:5) NulPattComp_Spearman(6:10) NulPattComp_Spearman(11:15) NulPattComp_Spearman(16:20)];
+    UndefinedPattComp_Spearman = [UndPattComp_Spearman(1:5) UndPattComp_Spearman(6:10) UndPattComp_Spearman(11:15) UndPattComp_Spearman(16:20)];
+
+    mNEGPattComp_Spearman = mean(NegativePattComp_Spearman, 2, 'omitnan');
+    mPOSPattComp_Spearman = mean(PositivePattComp_Spearman, 2, 'omitnan');
+    mNULLPattComp_Spearman = mean(NullPattComp_Spearman, 2, 'omitnan');
+    mUNDEFINEDPattComp_Spearman = mean(UndefinedPattComp_Spearman, 2, 'omitnan');
+    
+    figurem = figure(idx);
+    subplot 211
+    plot(1:5, mNEGCompPatt_Spearman, '-v',...
+        1:5, mPOSCompPatt_Spearman, '-+',...
+        1:5, mNULLCompPatt_Spearman, '-o',...
+        1:5, mUNDEFINEDCompPatt_Spearman, '-s')
+    
+    %legend('Negative hysteresis', 'Positive Hysteresis', 'Null', 'Undefined')
+    title(sprintf('Effect block in  CohInc \n %s - %s', string(ROIs_clean{comb(idx,1)}),string(ROIs_clean{comb(idx,2)})));
+    xlabel('Effect block'), ylabel('Mean Spearman Correlation')
+    ylim([-1 1])
+    
+    subplot 212
+    plot(1:5, mNEGPattComp_Spearman, '-v',...
+        1:5, mPOSPattComp_Spearman, '-+',...
+        1:5, mNULLPattComp_Spearman, '-o',...
+        1:5, mUNDEFINEDPattComp_Spearman, '-s')
+    
+    lgd = legend('Negative hysteresis', 'Positive Hysteresis', 'Null', 'Undefined', 'Position', [0.5 0.04 0.01 0.01]);
+    lgd.NumColumns = 4;
+    title(sprintf('Effect block in  IncCoh \n %s - %s', string(ROIs_clean{comb(idx,1)}),string(ROIs_clean{comb(idx,2)})));
+    xlabel('Effect block'), ylabel('Mean Spearman Correlation')
+    ylim([-1 1])
+    
+
+    
+     saveas(figurem, fullfile(path2,sprintf('%s_%s_meaneffectblock_Spearman.png',...
+                 string(ROIs_clean(comb(idx,2))), string(ROIs_clean(comb(idx,1))))));
+             
+            
 end
 
 
