@@ -1,7 +1,8 @@
 %% get denoised BOLD timecourses from the CONN project
 clear,clc
 
-dataFolder = '/DATAPOOL/VPHYSTERESIS/CONN_Projects/conn_project_task-main/results/preprocessing';
+%dataFolder = '/DATAPOOL/VPHYSTERESIS/CONN_Projects/conn_project_task-main/results/preprocessing';
+dataFolder = '/home/alexandresayal/media-sim01/DATAPOOL/VPHYSTERESIS/CONN_Projects/conn_project_task-main/results/preprocessing';
 
 subjects = 1:25;
 
@@ -39,7 +40,7 @@ end
 
 %% save
 
-save('ROIs_BOLD_timecourse.mat','BOLD_denoised_timecourse','ROIs_clean')
+save('ROIs_BOLD_timecourse.mat','BOLD_denoised_timecourse','ROIs_clean','nROIs')
 
 
 
