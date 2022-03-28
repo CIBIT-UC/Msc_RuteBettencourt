@@ -34,10 +34,10 @@ subs = 1:25;
 xx_condition = 1:21;
 xx_corr = 1:17;
 
-for sub=subs
-    for idx=idxs
+for sub=2
+    for idx=15
         figure(idx)
-        for run = runs
+        for run = 4
         
             effect_list_idx = 4*(sub-1)+run; %idx for the last volume of the effect block
             lastEffect_CompPatt = EffectBlockIndex_CompPatt(effect_list_idx);
@@ -78,42 +78,42 @@ for sub=subs
             
             sgtitle(sprintf('Sub-%02d run-%02d' , sub, run))
             %CompPatt and PattComp volumes
-            subplot 411
+            subplot 221
             %BOLD DENOISED signal - ROI1
-            plot(xx_condition, trialvol.CompPatt.(ROIs{comb(idx,1)}).(subjects{sub}).mean(xx_condition, run), 'color', [0.9290 0.6940 0.1250])
+            plot(xx_condition, trialvol.CompPatt.(ROIs{comb(idx,1)}).(subjects{sub}).mean(xx_condition, run), '-b')
             hold on
-            plot(xx_condition, trialvol.PattComp.(ROIs{comb(idx,1)}).(subjects{sub}).mean(xx_condition, run), 'color', [0.4660 0.6740 0.1880])
+            plot(xx_condition, trialvol.PattComp.(ROIs{comb(idx,1)}).(subjects{sub}).mean(xx_condition, run), '-r')
             title(ROIs_clean{comb(idx,1)})
             ylabel('Denoised BOLD signal'); xlabel('Time (volumes)')
-            xlim([0 22]); ylim([-1.04 1.04]);
+            xlim([0 22]); ylim([-0.5 0.5]);
             hold off
             
-            subplot 412
+            subplot 222
             %BOLD DENOISED signal - ROI2
-            plot(xx_condition, trialvol.CompPatt.(ROIs{comb(idx,2)}).(subjects{sub}).mean(xx_condition, run), 'color', [0.9290 0.6940 0.1250])
+            plot(xx_condition, trialvol.CompPatt.(ROIs{comb(idx,2)}).(subjects{sub}).mean(xx_condition, run), '-b')
             hold on
-            plot(xx_condition, trialvol.PattComp.(ROIs{comb(idx,2)}).(subjects{sub}).mean(xx_condition, run), 'color', [0.4660 0.6740 0.1880])
+            plot(xx_condition, trialvol.PattComp.(ROIs{comb(idx,2)}).(subjects{sub}).mean(xx_condition, run), '-r')
             xlabel('Time (volumes)')
             title(ROIs_clean{comb(idx,2)})
             ylabel('Denoised BOLD signal');
-            xlim([0 22]); ylim([-1.04 1.04]);
+            xlim([0 22]); ylim([-0.5 0.5]);
             hold off
             
-            subplot 413
+            subplot 223
             %Pearson correaltion
-            plot(xx_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_CompPatt.(subjects{sub})(xx_corr, run), 'color', [0.9290 0.6940 0.1250])
+            plot(xx_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_CompPatt.(subjects{sub})(xx_corr, run), '-b')
             hold on
-            plot(xx_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_PattComp.(subjects{sub})(xx_corr, run), 'color', [0.4660 0.6740 0.1880])
+            plot(xx_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_PattComp.(subjects{sub})(xx_corr, run), '-r')
             title(sprintf('Correlation between %s and %s', string(ROIs_clean(comb(idx,1))), string(ROIs_clean(comb(idx,2)))));
             xlabel('Time (volumes)'); ylabel('Pearson r'); %ylim ([-1 1]);
             xlim([0 22]); ylim([-1 1])
             hold off
             
-            subplot 414
+            subplot 224
             %Spearman correlation
-            plot(xx_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrSpearman_CompPatt.(subjects{sub})(xx_corr, run), 'color', [0.9290 0.6940 0.1250])
+            plot(xx_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrSpearman_CompPatt.(subjects{sub})(xx_corr, run), '-b')
             hold on
-            plot(xx_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrSpearman_PattComp.(subjects{sub})(xx_corr, run), 'color', [0.4660 0.6740 0.1880])
+            plot(xx_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrSpearman_PattComp.(subjects{sub})(xx_corr, run), '-r')
             title(sprintf('Correlation between %s and %s', string(ROIs_clean(comb(idx,1))), string(ROIs_clean(comb(idx,2)))));
             xlabel('Time (volumes)'); ylabel('Spearman r'); %ylim ([-1 1]);
             xlim([0 22]); ylim([-1 1])
@@ -121,226 +121,222 @@ for sub=subs
             
             if effect_CompPatt == 1 %Negative Hysteresis
                     
-                subplot 411
+                subplot 221
                 %BOLD signal - ROI1
                 hold on
-                plot(effectBlock_CompPatt, trialvol.CompPatt.(ROIs{comb(idx,1)}).(subjects{sub}).mean(effectBlock_CompPatt, run), '-vb') 
+                plot(effectBlock_CompPatt, trialvol.CompPatt.(ROIs{comb(idx,1)}).(subjects{sub}).mean(effectBlock_CompPatt, run), '-vb', 'linewidth', 2) 
                 hold off
 
-                subplot 412
+                subplot 222
                 %BOLD signal - ROI2
                 hold on
-                plot(effectBlock_CompPatt, trialvol.CompPatt.(ROIs{comb(idx,2)}).(subjects{sub}).mean(effectBlock_CompPatt, run), '-vb')
+                plot(effectBlock_CompPatt, trialvol.CompPatt.(ROIs{comb(idx,2)}).(subjects{sub}).mean(effectBlock_CompPatt, run), '-vb','linewidth', 2)
                 hold off
 
-                subplot 413
+                subplot 223
                 %Pearson Correlation ROI1 ROI2
                 hold on
-                plot(effectBlock_CompPatt_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_CompPatt.(subjects{sub})(effectBlock_CompPatt_corr,run), '-vb')
+                plot(effectBlock_CompPatt_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_CompPatt.(subjects{sub})(effectBlock_CompPatt_corr,run), '-vb','linewidth', 2)
                 hold off
 
-                subplot 414
+                subplot 224
                 %Spearman Correlation ROI1 ROI2
                 hold on
-                plot(effectBlock_CompPatt_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrSpearman_CompPatt.(subjects{sub})(effectBlock_CompPatt_corr,run), '-vb')
+                plot(effectBlock_CompPatt_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrSpearman_CompPatt.(subjects{sub})(effectBlock_CompPatt_corr,run), '-vb','linewidth', 2)
                 hold off
                 
             elseif effect_CompPatt == 2 %Positive Hysteresis
-                subplot 411
+                subplot 221
                 %BOLD signal - ROI1
                 hold on
-                plot(effectBlock_CompPatt, trialvol.CompPatt.(ROIs{comb(idx,1)}).(subjects{sub}).mean(effectBlock_CompPatt, run), '-+b')
+                plot(effectBlock_CompPatt, trialvol.CompPatt.(ROIs{comb(idx,1)}).(subjects{sub}).mean(effectBlock_CompPatt, run), '-+b','linewidth', 2)
                 hold off
 
-                subplot 412
+                subplot 222
                 %BOLD signal - ROI2
                 hold on
-                plot(effectBlock_CompPatt, trialvol.CompPatt.(ROIs{comb(idx,2)}).(subjects{sub}).mean(effectBlock_CompPatt, run), '-+b')
+                plot(effectBlock_CompPatt, trialvol.CompPatt.(ROIs{comb(idx,2)}).(subjects{sub}).mean(effectBlock_CompPatt, run), '-+b','linewidth', 2)
                 hold off
 
-                subplot 413
+                subplot 223
                 %Pearson Correlation ROI1 ROI2
                 hold on
-                plot(effectBlock_CompPatt_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_CompPatt.(subjects{sub})(effectBlock_CompPatt_corr,run), '-+b')
+                plot(effectBlock_CompPatt_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_CompPatt.(subjects{sub})(effectBlock_CompPatt_corr,run), '-+b','linewidth', 2)
                 hold off
 
-                subplot 414
+                subplot 224
                 %Spearman Correlation ROI1 ROI2
                 hold on
-                plot(effectBlock_CompPatt_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrSpearman_CompPatt.(subjects{sub})(effectBlock_CompPatt_corr,run), '-+b')
+                plot(effectBlock_CompPatt_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrSpearman_CompPatt.(subjects{sub})(effectBlock_CompPatt_corr,run), '-+b','linewidth', 2)
                 hold off
 
             elseif effect_CompPatt == 3 
-                subplot 411
+                subplot 221
                 %BOLD signal - ROI1
                 hold on
-                plot(effectBlock_CompPatt, trialvol.CompPatt.(ROIs{comb(idx,1)}).(subjects{sub}).mean(effectBlock_CompPatt, run), '-ob')
+                plot(effectBlock_CompPatt, trialvol.CompPatt.(ROIs{comb(idx,1)}).(subjects{sub}).mean(effectBlock_CompPatt, run), '-ob','linewidth', 2)
                 hold off
 
-                subplot 412
+                subplot 222
                 %BOLD signal - ROI2
                 hold on
-                plot(effectBlock_CompPatt, trialvol.CompPatt.(ROIs{comb(idx,2)}).(subjects{sub}).mean(effectBlock_CompPatt, run), '-ob')
+                plot(effectBlock_CompPatt, trialvol.CompPatt.(ROIs{comb(idx,2)}).(subjects{sub}).mean(effectBlock_CompPatt, run), '-ob','linewidth', 2)
                 hold off
 
-                subplot 413
+                subplot 223
                 %Pearson Correlation ROI1 ROI2
                 hold on
-                plot(effectBlock_CompPatt_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_CompPatt.(subjects{sub})(effectBlock_CompPatt_corr,run), '-ob')
+                plot(effectBlock_CompPatt_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_CompPatt.(subjects{sub})(effectBlock_CompPatt_corr,run), '-ob','linewidth', 2)
                 hold off
 
-                subplot 414
+                subplot 224
                 %Pearson Correlation ROI1 ROI2
                 hold on
-                plot(effectBlock_CompPatt_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrSpearman_CompPatt.(subjects{sub})(effectBlock_CompPatt_corr,run), '-ob')
+                plot(effectBlock_CompPatt_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrSpearman_CompPatt.(subjects{sub})(effectBlock_CompPatt_corr,run), '-ob','linewidth', 2)
                 hold off
             elseif effect_CompPatt == 4
-                subplot 411
+                subplot 221
                 %BOLD signal - ROI1
                 hold on
-                plot(effectBlock_CompPatt, trialvol.CompPatt.(ROIs{comb(idx,1)}).(subjects{sub}).mean(effectBlock_CompPatt, run), '-sb')
+                plot(effectBlock_CompPatt, trialvol.CompPatt.(ROIs{comb(idx,1)}).(subjects{sub}).mean(effectBlock_CompPatt, run), '-sb','linewidth', 2)
                 hold off
 
-                subplot 412
+                subplot 222
                 %BOLD signal - ROI2
                 hold on
-                plot(effectBlock_CompPatt, trialvol.CompPatt.(ROIs{comb(idx,2)}).(subjects{sub}).mean(effectBlock_CompPatt, run), '-sb')
+                plot(effectBlock_CompPatt, trialvol.CompPatt.(ROIs{comb(idx,2)}).(subjects{sub}).mean(effectBlock_CompPatt, run), '-sb','linewidth', 2)
                 hold off
 
-                subplot 413
+                subplot 223
                 %Pearson Correlation ROI1 ROI2
                 hold on
-                plot(effectBlock_CompPatt_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_CompPatt.(subjects{sub})(effectBlock_CompPatt_corr,run), '-sb')
+                plot(effectBlock_CompPatt_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_CompPatt.(subjects{sub})(effectBlock_CompPatt_corr,run), '-sb','linewidth', 2)
                 hold off
 
-                subplot 414
+                subplot 224
                 %Pearson Correlation ROI1 ROI2
                 hold on
-                plot(effectBlock_CompPatt_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrSpearman_CompPatt.(subjects{sub})(effectBlock_CompPatt_corr,run), '-sb')
+                plot(effectBlock_CompPatt_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrSpearman_CompPatt.(subjects{sub})(effectBlock_CompPatt_corr,run), '-sb','linewidth', 2)
                 hold off
 
             end
             if effect_PattComp == 1 %Negative Hysteresis
-                subplot 411
+                subplot 221
                 %BOLD signal - ROI1
                 hold on
-                plot(effectBlock_PattComp, trialvol.PattComp.(ROIs{comb(idx,1)}).(subjects{sub}).mean(effectBlock_PattComp, run), '-vr')
+                plot(effectBlock_PattComp, trialvol.PattComp.(ROIs{comb(idx,1)}).(subjects{sub}).mean(effectBlock_PattComp, run), '-vr','linewidth', 2)
                 hold off; hold off
 
-                subplot 412
+                subplot 222
                 %BOLD signal - ROI2
                 hold on
-                plot(effectBlock_PattComp, trialvol.PattComp.(ROIs{comb(idx,2)}).(subjects{sub}).mean(effectBlock_PattComp, run), '-vr')
+                plot(effectBlock_PattComp, trialvol.PattComp.(ROIs{comb(idx,2)}).(subjects{sub}).mean(effectBlock_PattComp, run), '-vr','linewidth', 2)
                 hold off; hold off
 
-                subplot 413
+                subplot 223
                 %Pearson Correlation ROI1 ROI2
                 hold on
-                plot(effectBlock_PattComp_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_PattComp.(subjects{sub})(effectBlock_PattComp_corr,run), '-vr')
+                plot(effectBlock_PattComp_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_PattComp.(subjects{sub})(effectBlock_PattComp_corr,run), '-vr','linewidth', 2)
                 hold off; hold off
 
-                subplot 414                   
+                subplot 224                   
                 hold on
-                plot(effectBlock_PattComp_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrSpearman_PattComp.(subjects{sub})(effectBlock_PattComp_corr,run), '-vr')
+                plot(effectBlock_PattComp_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrSpearman_PattComp.(subjects{sub})(effectBlock_PattComp_corr,run), '-vr','linewidth', 2)
                 hold off; hold off
 
             elseif effect_PattComp == 2 %Positive Hysteresis
-                subplot 411
+                subplot 221
                 hold on
-                plot(effectBlock_PattComp, trialvol.PattComp.(ROIs{comb(idx,1)}).(subjects{sub}).mean(effectBlock_PattComp, run), '-+r')
+                plot(effectBlock_PattComp, trialvol.PattComp.(ROIs{comb(idx,1)}).(subjects{sub}).mean(effectBlock_PattComp, run), '-+r','linewidth', 2)
                 hold off; hold off
 
-                subplot 412
+                subplot 222
                 %BOLD signal - ROI2
                 hold on
-                plot(effectBlock_PattComp, trialvol.PattComp.(ROIs{comb(idx,2)}).(subjects{sub}).mean(effectBlock_PattComp, run), '-+r')
+                plot(effectBlock_PattComp, trialvol.PattComp.(ROIs{comb(idx,2)}).(subjects{sub}).mean(effectBlock_PattComp, run), '-+r','linewidth', 2)
                 hold off; hold off
 
-                subplot 413
+                subplot 223
                 %Pearson Correlation ROI1 ROI2
                 hold on
-                plot(effectBlock_PattComp_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_PattComp.(subjects{sub})(effectBlock_PattComp_corr,run), '-+r')
+                plot(effectBlock_PattComp_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_PattComp.(subjects{sub})(effectBlock_PattComp_corr,run), '-+r','linewidth', 2)
                 hold off; hold off
 
-                subplot 414
+                subplot 224
                 %Pearson Correlation ROI1 ROI2
                 hold on
-                plot(effectBlock_PattComp_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrSpearman_PattComp.(subjects{sub})(effectBlock_PattComp_corr,run), '-+r')
+                plot(effectBlock_PattComp_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrSpearman_PattComp.(subjects{sub})(effectBlock_PattComp_corr,run), '-+r','linewidth', 2)
                 hold off; hold off
 
 
             elseif effect_PattComp == 3 
                 sgtitle(sprintf('Sub-%02d run-%02d' , sub, run))
-                subplot 411
+                subplot 221
                 hold on
-                plot(effectBlock_PattComp, trialvol.PattComp.(ROIs{comb(idx,1)}).(subjects{sub}).mean(effectBlock_PattComp, run), '-or')
+                plot(effectBlock_PattComp, trialvol.PattComp.(ROIs{comb(idx,1)}).(subjects{sub}).mean(effectBlock_PattComp, run), '-or','linewidth', 2)
                 hold off; hold off
 
-                subplot 412
+                subplot 222
                 %BOLD signal - ROI2
                 hold on
-                plot(effectBlock_PattComp, trialvol.PattComp.(ROIs{comb(idx,2)}).(subjects{sub}).mean(effectBlock_PattComp, run), '-or')
+                plot(effectBlock_PattComp, trialvol.PattComp.(ROIs{comb(idx,2)}).(subjects{sub}).mean(effectBlock_PattComp, run), '-or','linewidth', 2)
                 hold off; hold off
 
-                subplot 413
+                subplot 223
                 %Pearson Correlation ROI1 ROI2
                 hold on
-                plot(effectBlock_PattComp_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_PattComp.(subjects{sub})(effectBlock_PattComp_corr,run), '-or')
+                plot(effectBlock_PattComp_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_PattComp.(subjects{sub})(effectBlock_PattComp_corr,run), '-or','linewidth', 2)
                 hold off; hold off
 
-                subplot 414
+                subplot 224
                 %Pearson Correlation ROI1 ROI2
                 hold on
-                plot(effectBlock_PattComp_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrSpearman_PattComp.(subjects{sub})(effectBlock_PattComp_corr,run), '-or')
+                plot(effectBlock_PattComp_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrSpearman_PattComp.(subjects{sub})(effectBlock_PattComp_corr,run), '-or','linewidth', 2)
                 hold off; hold off
 
             elseif effect_PattComp == 4
 
-                subplot 411
+                subplot 221
                 hold on
-                plot(effectBlock_PattComp, trialvol.PattComp.(ROIs{comb(idx,1)}).(subjects{sub}).mean(effectBlock_PattComp, run), '-sr')
+                plot(effectBlock_PattComp, trialvol.PattComp.(ROIs{comb(idx,1)}).(subjects{sub}).mean(effectBlock_PattComp, run), '-sr','linewidth', 2)
                 hold off; hold off
 
-                subplot 412
+                subplot 222
                 %BOLD signal - ROI2
                 hold on
-                plot(effectBlock_PattComp, trialvol.PattComp.(ROIs{comb(idx,2)}).(subjects{sub}).mean(effectBlock_PattComp, run), '-sr')
+                plot(effectBlock_PattComp, trialvol.PattComp.(ROIs{comb(idx,2)}).(subjects{sub}).mean(effectBlock_PattComp, run), '-sr','linewidth', 2)
                 hold off; hold off
 
-                subplot 413
+                subplot 223
                 %Pearson Correlation ROI1 ROI2
                 hold on
-                plot(effectBlock_PattComp_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_PattComp.(subjects{sub})(effectBlock_PattComp_corr,run), '-sr')
+                plot(effectBlock_PattComp_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrPearson_PattComp.(subjects{sub})(effectBlock_PattComp_corr,run), '-sr','linewidth', 2)
                 hold off; hold off
 
-                subplot 414
+                subplot 224
                 %Spearman Correlation ROI1 ROI2
                 hold on
-                plot(effectBlock_PattComp_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrSpearman_PattComp.(subjects{sub})(effectBlock_PattComp_corr,run), '-sr')
+                plot(effectBlock_PattComp_corr, blockmetrics.(ROIs{comb(idx,1)}).(ROIs{comb(idx,2)}).corrSpearman_PattComp.(subjects{sub})(effectBlock_PattComp_corr,run), '-sr','linewidth', 2)
                 hold off; hold off
             end
             
             %For legend porpuses
             hold on
-            LH(1) = plot(nan, nan, 'color', [0.9290 0.6940 0.1250]);
+            LH(1) = plot(nan, nan, '-b');
             H{1} =  'IncCoh';
-            LH(2) = plot(nan, nan, 'color', [0.4660 0.6740 0.1880]);
+            LH(2) = plot(nan, nan, '-r');
             H{2} = 'CohInc';
-            LH(3) = plot(nan, nan, '-b');
-            H{3} = 'Block effect IncCoh';
-            LH(4) = plot(nan, nan, '-r');
-            H{4} = 'Block effect CohInc';
-            LH(5) = plot(nan, nan, 'k+');
-            H{5} = 'Positive Hysteresis';
-            LH(6) = plot(nan, nan, 'kv');
-            H{6} = 'Negative Hysteresis';
-            LH(7) = plot(nan, nan, 'ko');
-            H{7} = 'Null';
-            LH(8) = plot(nan, nan, 'ks');
-            H{8} = 'Undefined';
+            LH(3) = plot(nan, nan, 'k+');
+            H{3} = 'Positive Hysteresis';
+            LH(4) = plot(nan, nan, 'kv');
+            H{4} = 'Negative Hysteresis';
+            LH(5) = plot(nan, nan, 'ko');
+            H{5} = 'Null';
+            LH(6) = plot(nan, nan, 'ks');
+            H{6} = 'Undefined';
             lgd = legend(LH, H, 'Position', [0.5 0.04 0.01 0.01]);
             
-            lgd.NumColumns = 4;
+            lgd.NumColumns = 3;
             
             hold off
             figuren = figure(idx);
