@@ -1,4 +1,4 @@
-%% Start of the effect volume
+%% Onset of the effect volume
 clear all, close all, clc
 
 path = strip(fullfile(' ','DATAPOOL', 'VPHYSTERESIS', 'BIDS-VP-HYSTERESIS',...
