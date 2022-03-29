@@ -57,7 +57,7 @@ effectblocks = struct();
 % effectblocks.Adjusted.Undefined.PattComp.block = zeros(20,25);
 
 for ii = 1:4
-    effectblocks.(effect{ii}).CompPatt.block = zeros(20,25); %4runs*window, block size
+    effectblocks.(effect{ii}).CompPatt.block = zeros(20,25); %4runs*window x subjects
     effectblocks.Adjusted.(effect{ii}).CompPatt.block = zeros(20,25);
     effectblocks.(effect{ii}).PattComp.block = zeros(20,25);
     effectblocks.Adjusted.(effect{ii}).PattComp.block = zeros(20,25);
@@ -81,7 +81,7 @@ for sub=subs
         if lastEffect_CompPatt>=5 && lastEffect_CompPatt<=17 %NORMAL CASE
             
             effectBlock_CompPatt = lastEffect_CompPatt-(windowSize-1):lastEffect_CompPatt;
-            effectBlock_CompPatt_corr = effectBlock_CompPatt; % (end)?? -->se for subsitituir no DynConn_04
+            effectBlock_CompPatt_corr = effectBlock_CompPatt(1); 
             
             %Effects
 %             if effect_CompPatt == 1 %Negative Hysteresis
@@ -100,7 +100,7 @@ for sub=subs
         elseif lastEffect_CompPatt<5 
             
             effectBlock_CompPatt = 1:5;
-            effectBlock_CompPatt_corr = effectBlock_CompPatt;
+            effectBlock_CompPatt_corr = effectBlock_CompPatt(1);
             
 %             if effect_CompPatt == 1 %Negative Hysteresis
 %                 effectblocks.Negative.CompPatt.block(window+5*(run-1),sub) = effectBlock_CompPatt_corr;
@@ -122,7 +122,7 @@ for sub=subs
         elseif lastEffect_CompPatt>17
             
             effectBlock_CompPatt = 17:21;
-            effectBlock_CompPatt_corr = 13:17;
+            effectBlock_CompPatt_corr = 17;
             
 %             if effect_CompPatt == 1 %Negative Hysteresis
 %                 effectblocks.Negative.CompPatt.block(window+5*(run-1),sub) = effectBlock_CompPatt_corr;
@@ -147,7 +147,7 @@ for sub=subs
         if lastEffect_PattComp>=5 && lastEffect_PattComp<=17 %NORMAL CASE
             
             effectBlock_PattComp = window + lastEffect_PattComp-5;
-            effectBlock_PattComp_corr = effectBlock_PattComp; 
+            effectBlock_PattComp_corr = effectBlock_PattComp(1); 
             
 %             if effect_PattComp == 1 %Negative Hysteresis
 %                 effectblocks.Negative.PattComp.block(window+5*(run-1),sub) = effectBlock_PattComp_corr;
@@ -166,7 +166,7 @@ for sub=subs
         elseif lastEffect_PattComp<5
             
             effectBlock_PattComp = 1:5;
-            effectBlock_PattComp_corr = 1:5;
+            effectBlock_PattComp_corr = 1;
             
 %             if effect_PattComp == 1 %Negative Hysteresis
 %                 effectblocks.Negative.PattComp.block(window+5*(run-1),sub) = effectBlock_PattComp_corr;
@@ -188,7 +188,7 @@ for sub=subs
         elseif lastEffect_PattComp>17
             
             effectBlock_PattComp = 17:21;
-            effectBlock_PattComp_corr = 13:17;
+            effectBlock_PattComp_corr = 17;
             
 %             if effect_PattComp == 1 %Negative Hysteresis
 %                 effectblocks.Negative.PattComp.block(window+5*(run-1),sub) = effectBlock_PattComp_corr;
