@@ -157,7 +157,7 @@ for cc = 1:nCombinations
                     corrPerEffect.(effects{auxEffect_PattComp}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).PattComp.Pearson(counterPerEffect_PattComp(auxEffect_PattComp), 1:5) =...
                         datacon.correlationTCs.(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).corrPearson_PattComp.(subjects{ss})(corrIdxBlock_PattComp-5:corrIdxBlock_PattComp-1,rr);
                 
-                     corrPerEffect.(effects{auxEffect_PattComp}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).PattComp.Pearson(counterPerEffect_PattComp(auxEffect_PattComp), 1:5) =...
+                     corrPerEffect.(effects{auxEffect_PattComp}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).PattComp.Spearman(counterPerEffect_PattComp(auxEffect_PattComp), 1:5) =...
                         datacon.correlationTCs.(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).corrSpearman_PattComp.(subjects{ss})(corrIdxBlock_PattComp-5:corrIdxBlock_PattComp-1,rr);
              
                 end
@@ -197,94 +197,148 @@ xx_PattComp = 2:2:8;
 
 % Iterate on the ROI combinations
 for cc = 1:nCombinations
-
-    idx = 1;
-    meanCorrBlock = zeros(1,8);
-    semCorrBlock = zeros(1,8);
     
+    %% Spearman
+    idx = 1;
+    meanCorrBlock = zeros(2,8); % lines 1 Spearman, 2 Pearson, columns odds CompPatt, evens PattComp
+    semCorrBlock = zeros(2,8);
+    meanCorrPre = zeros(2,8);
+    semCorrPre = zeros(2,8);
+    meanCorrPos = zeros(2,8);
+    semCorrPos = zeros(2,8);
+    meanCorrVols_Spearman = zeros(8,11); %lines odds CompPatt, evens PattComp, 1,2 Neg, 3,4 Pos, 5,6, Null, 7,8 Undefined
+    meanCorrVols_Pearson = zeros(8,11);
+%%    
+    figure('position',[50 50 700 400]);
+    %figure('position', [50 50 900 900]);
     % calculate means and SEM for each effect
     for ee = 1:nEffects
         
         %Before effect block
-        meanCorrPre(idx) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).CompPatt.Spearman(:,1), 'omitnan');
-        meanCorrPre(idx+1) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).PattComp.Spearman(:,1), 'omitnan');
+        meanCorrPre(1,idx) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).CompPatt.Spearman(:,1), 'omitnan');
+        meanCorrPre(1,idx+1) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).PattComp.Spearman(:,1), 'omitnan');
+        meanCorrPre(2,idx) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).CompPatt.Pearson(:,1), 'omitnan');
+        meanCorrPre(2,idx+1) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).PattComp.Pearson(:,1), 'omitnan');
         
-        semCorrPre(idx) = std(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).CompPatt.Spearman(:,1), 'omitnan') / sqrt(nRunsPerEffect_CompPatt(ee));
-        semCorrPre(idx+1) = std(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).PattComp.Spearman(:,1), 'omitnan') / sqrt(nRunsPerEffect_PattComp(ee));
+        semCorrPre(1,idx) = std(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).CompPatt.Spearman(:,1), 'omitnan') / sqrt(nRunsPerEffect_CompPatt(ee));
+        semCorrPre(1,idx+1) = std(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).PattComp.Spearman(:,1), 'omitnan') / sqrt(nRunsPerEffect_PattComp(ee));
+        semCorrPre(2,idx) = std(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).CompPatt.Pearson(:,1), 'omitnan') / sqrt(nRunsPerEffect_CompPatt(ee));
+        semCorrPre(2,idx+1) = std(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).PattComp.Pearson(:,1), 'omitnan') / sqrt(nRunsPerEffect_PattComp(ee));
         
         %During effect block
-        meanCorrBlock(idx) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).CompPatt.Spearman(:,6));
-        meanCorrBlock(idx+1) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).PattComp.Spearman(:,6));
+        meanCorrBlock(1,idx) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).CompPatt.Spearman(:,6));
+        meanCorrBlock(1,idx+1) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).PattComp.Spearman(:,6));
+        meanCorrBlock(2,idx) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).CompPatt.Pearson(:,6));
+        meanCorrBlock(2,idx+1) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).PattComp.Pearson(:,6));
         
-        semCorrBlock(idx) = std(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).CompPatt.Spearman(:,6)) / sqrt(nRunsPerEffect_CompPatt(ee));
-        semCorrBlock(idx+1) = std(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).PattComp.Spearman(:,6)) / sqrt(nRunsPerEffect_PattComp(ee));
-        
+        semCorrBlock(1,idx) = std(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).CompPatt.Spearman(:,6)) / sqrt(nRunsPerEffect_CompPatt(ee));
+        semCorrBlock(1,idx+1) = std(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).PattComp.Spearman(:,6)) / sqrt(nRunsPerEffect_PattComp(ee));
+        semCorrBlock(2,idx) = std(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).CompPatt.Pearson(:,6)) / sqrt(nRunsPerEffect_CompPatt(ee));
+        semCorrBlock(2,idx+1) = std(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).PattComp.Pearson(:,6)) / sqrt(nRunsPerEffect_PattComp(ee));
+       
         %After effect block
-        meanCorrPos(idx) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).CompPatt.Spearman(:,11), 'omitnan');
-        meanCorrPos(idx+1) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).PattComp.Spearman(:,11), 'omitnan');
+        meanCorrPos(1,idx) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).CompPatt.Spearman(:,11), 'omitnan');
+        meanCorrPos(1,idx+1) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).PattComp.Spearman(:,11), 'omitnan');
+        meanCorrPos(2,idx) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).CompPatt.Pearson(:,11), 'omitnan');
+        meanCorrPos(2,idx+1) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).PattComp.Pearson(:,11), 'omitnan');
         
-        semCorrPos(idx) = std(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).CompPatt.Spearman(:,11), 'omitnan') / sqrt(nRunsPerEffect_CompPatt(ee));
-        semCorrPos(idx+1) = std(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).PattComp.Spearman(:,11), 'omitnan') / sqrt(nRunsPerEffect_PattComp(ee));
+        semCorrPos(1,idx) = std(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).CompPatt.Spearman(:,11), 'omitnan') / sqrt(nRunsPerEffect_CompPatt(ee));
+        semCorrPos(1,idx+1) = std(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).PattComp.Spearman(:,11), 'omitnan') / sqrt(nRunsPerEffect_PattComp(ee));
+        semCorrPos(2,idx) = std(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).CompPatt.Pearson(:,11), 'omitnan') / sqrt(nRunsPerEffect_CompPatt(ee));
+        semCorrPos(2,idx+1) = std(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).PattComp.Pearson(:,11), 'omitnan') / sqrt(nRunsPerEffect_PattComp(ee));
         
         %The 11 correlation volumes
-        meanCorrVols = mean(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).CompPatt.Spearman, 'omitnan');
+        meanCorrVols_Spearman(idx,:) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).CompPatt.Spearman, 'omitnan');
+        meanCorrVols_Spearman(idx+1,:) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).PattComp.Spearman, 'omitnan');
+        meanCorrVols_Pearson(idx,:) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).CompPatt.Pearson, 'omitnan');
+        meanCorrVols_Pearson(idx+1,:) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).PattComp.Pearson, 'omitnan');
         idx = idx+2;
          
-        figure('position',[50 50 700 400]);
+        %% Plot CompPatt Effects (figure opened above) 
+        %subplot 211
         hold on
         line([0 16],[0 0],'linestyle',':','color','k')
-        e1 = errorbar([1], meanCorrPre(2*ee-1), semCorrPre(2*ee-1),'color',clrMap(6,:),'linestyle','none','markersize',10,'marker','.');
-        e2 = errorbar([6], meanCorrBlock(2*ee-1), semCorrBlock(2*ee-1),'color',clrMap(7,:),'linestyle','none','markersize',10,'marker','.');
-        e3 = errorbar([11], meanCorrPos(2*ee-1), semCorrPos(2*ee-1),'color',clrMap(11,:),'linestyle','none','markersize',10,'marker','.');
-        e4 = plot(1:11, meanCorrVols(1:11))
-        hold off
-         
-        legend([e1 e2 e3 e4], {'Before effect block','Effect block', 'After effect block', 'Correlation timecourse'},'location','best')
-        xlabel('tbd'); xlim = [0 12];
-        ylabel('Spearman correlation'); ylim = [-1.1 1.1];
-        title(sprintf('%s <--> %s \n CompPatt %s',ROIs_clean{comb(cc,1)},ROIs_clean{comb(cc,2)}, effects{ee}),'interpreter','none')
-        
+        e1 = errorbar([1], meanCorrPre(1,xx_CompPatt(ee)), semCorrPre(1,xx_CompPatt(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',10,'marker','.');
+        e2 = errorbar([6], meanCorrBlock(1,xx_CompPatt(ee)), semCorrBlock(1,xx_CompPatt(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',10,'marker','.');
+        e3 = errorbar([11], meanCorrPos(1,xx_CompPatt(ee)), semCorrPos(1,xx_CompPatt(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',10,'marker','.');
+        e4 = plot(1:11, meanCorrVols_Spearman(2*ee-1,:), 'color',clrMap(6+3*ee,:));
+        LH(ee) = plot(nan, nan, '-' , 'color',clrMap(6+3*ee,:),'linewidth',2);
+        H{ee} = effects{ee};
     end
 
-    %% PLOT Spearman CompPatt
-%    
-%      figure('position',[50 50 700 400])
-%      hold on
-%      line([0 16],[0 0],'linestyle',':','color','k')
-%      e1 = errorbar([1,5,9,13], meanCorrPre(xx_CompPatt), semCorrPre(xx_CompPatt),'color',clrMap(6,:),'linestyle','none','markersize',10,'marker','.');
-%      e2 = errorbar([2,6,10,14], meanCorrBlock(xx_CompPatt), semCorrBlock(xx_CompPatt),'color',clrMap(7,:),'linestyle','none','markersize',10,'marker','.');
-%      e3 = errorbar([3,7,11,15], meanCorrPos(xx_CompPatt), semCorrPos(xx_CompPatt),'color',clrMap(11,:),'linestyle','none','markersize',10,'marker','.');
-%      e4 = plot(xx_CompPatt, meanCorrVols(xx_CompPatt))
-%      hold off
-%    
-%      xlim([0 16]); xlabel('Effects')
-%      ylim([-1 1]); ylabel('Spearman correlation')
-%  
-%      xticks([2 6 10 14]); xticklabels(effects);
-%      
-%      title(sprintf('%s <--> %s \n CompPatt',ROIs_clean{comb(cc,1)},ROIs_clean{comb(cc,2)}),'interpreter','none')
-%      
-%      legend([e1 e2 e3],{'Before effect block','Effect block', 'After effect block'},'location','best')
-% 
-%      %% PLOT Spearman PattComp
-%      
-%      figure('position',[50 50 700 400])
-%      hold on
-%      line([0 16],[0 0],'linestyle',':','color','k')
-%      e1 = errorbar([1,5,9,13], meanCorrPre(xx_PattComp), semCorrPre(xx_PattComp),'color',clrMap(6,:),'linestyle','none','markersize',10,'marker','.');
-%      e2 = errorbar([2,6,10,14], meanCorrBlock(xx_PattComp), semCorrBlock(xx_PattComp),'color',clrMap(7,:),'linestyle','none','markersize',10,'marker','.');
-%      e3 = errorbar([3,7,11,15], meanCorrPos(xx_PattComp), semCorrPos(xx_PattComp),'color',clrMap(11,:),'linestyle','none','markersize',10,'marker','.');
-% 
-%      hold off
-%    
-%      xlim([0 16]); xlabel('Effects')
-%      ylim([-1 1]); ylabel('Spearman correlation')
-%  
-%      xticks([2 6 10 14]); xticklabels(effects);
-%      
-%      title(sprintf('%s <--> %s \n PattComp',ROIs_clean{comb(cc,1)},ROIs_clean{comb(cc,2)}),'interpreter','none')
-%      
-%      legend([e1 e2 e3],{'Before effect block','Effect block', 'After effect block'},'location','best')
-     
-     
+    hold off
+    legend(LH, H,'location','best')
+    xlabel('Time ???'); xlim([0 12]);
+    xticks([1 6 11]); xticklabels({'Before effect block', 'Effect block', 'After effect block'});
+    ylabel('Spearman correlation'); ylim([-1.1 1.1]);
+    title(sprintf('%s <--> %s \n CompPatt ',ROIs_clean{comb(cc,1)},ROIs_clean{comb(cc,2)}),'interpreter','none')
+    
+    %% Plot PattComp effects - Spearman
+    figure('position',[570 50 700 400])
+    %subplot 212
+    for ee = 1:nEffects
+                
+        hold on
+        line([0 16],[0 0],'linestyle',':','color','k')
+        e1 = errorbar([1], meanCorrPre(1,xx_PattComp(ee)), semCorrPre(1,xx_PattComp(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',10,'marker','.');
+        e2 = errorbar([6], meanCorrBlock(1,xx_PattComp(ee)), semCorrBlock(1,xx_PattComp(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',10,'marker','.');
+        e3 = errorbar([11], meanCorrPos(1,xx_PattComp(ee)), semCorrPos(1,xx_PattComp(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',10,'marker','.');
+        e4 = plot(1:11, meanCorrVols_Spearman(2*ee,:), 'color',clrMap(6+3*ee,:));
+        LH(ee) = plot(nan, nan, '-' , 'color',clrMap(6+3*ee,:),'linewidth',2);
+        H{ee} = effects{ee};
+    end
+    
+    hold off
+    legend(LH, H,'location','best')
+    xlabel('Time ???'); xlim([0 12]);
+    xticks([1 6 11]); xticklabels({'Before effect block', 'Effect block', 'After effect block'});
+    ylabel('Spearman correlation'); ylim([-1.1 1.1]);
+    title(sprintf('%s <--> %s \n PattComp ',ROIs_clean{comb(cc,1)},ROIs_clean{comb(cc,2)}),'interpreter','none')
+    
+    
+    %% Plot CompPatt Effects Pearson 
+    figure('Position', [50 550 700 400])    
+    %subplot 121
+    for ee = 1:nEffects
+        
+        hold on
+        line([0 16],[0 0],'linestyle',':','color','k')
+        e1 = errorbar([1], meanCorrPre(2,xx_CompPatt(ee)), semCorrPre(2,xx_CompPatt(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',10,'marker','.');
+        e2 = errorbar([6], meanCorrBlock(2,xx_CompPatt(ee)), semCorrBlock(2,xx_CompPatt(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',10,'marker','.');
+        e3 = errorbar([11], meanCorrPos(2,xx_CompPatt(ee)), semCorrPos(2,xx_CompPatt(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',10,'marker','.');
+        e4 = plot(1:11, meanCorrVols_Pearson(2*ee-1,:), 'color',clrMap(6+3*ee,:));
+        LH(ee) = plot(nan, nan, '-' , 'color',clrMap(6+3*ee,:),'linewidth',2);
+        H{ee} = effects{ee};
+    end
+    
+    hold off
+    legend(LH, H,'location','best')
+    xlabel('Time ???'); xlim([0 12]);
+    xticks([1 6 11]); xticklabels({'Before effect block', 'Effect block', 'After effect block'});
+    ylabel('Pearson correlation'); ylim([-1.1 1.1]);
+    title(sprintf('%s <--> %s \n CompPatt ',ROIs_clean{comb(cc,1)},ROIs_clean{comb(cc,2)}),'interpreter','none')
+    
+    %% Plot PattComp effects - Pearson
+    figure('position',[570 550 700 400])
+    %subplot 122
+    for ee = 1:nEffects
+                
+        hold on
+        line([0 16],[0 0],'linestyle',':','color','k')
+        e1 = errorbar([1], meanCorrPre(2,xx_PattComp(ee)), semCorrPre(2,xx_PattComp(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',10,'marker','.');
+        e2 = errorbar([6], meanCorrBlock(2,xx_PattComp(ee)), semCorrBlock(2,xx_PattComp(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',10,'marker','.');
+        e3 = errorbar([11], meanCorrPos(2,xx_PattComp(ee)), semCorrPos(2,xx_PattComp(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',10,'marker','.');
+        e4 = plot(1:11, meanCorrVols_Pearson(2*ee,:), 'color',clrMap(6+3*ee,:));
+        LH(ee) = plot(nan, nan, '-' , 'color',clrMap(6+3*ee,:),'linewidth',2);
+        H{ee} = effects{ee};
+    end
+
+    hold off
+    legend(LH, H,'location','best')
+    xlabel('Time ???'); xlim([0 12]);
+    xticks([1 6 11]); xticklabels({'Before effect block', 'Effect block', 'After effect block'});
+    ylabel('Pearson correlation'); ylim([-1.1 1.1]);
+    title(sprintf('%s <--> %s \n PattComp ',ROIs_clean{comb(cc,1)},ROIs_clean{comb(cc,2)}),'interpreter','none')
+    
+    
 end
