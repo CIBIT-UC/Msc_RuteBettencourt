@@ -206,8 +206,10 @@ for cc = 1:nCombinations
     semCorrPre = zeros(2,8);
     meanCorrPos = zeros(2,8);
     semCorrPos = zeros(2,8);
-    meanCorrVols_Spearman = zeros(8,11); %lines odds CompPatt, evens PattComp, 1,2 Neg, 3,4 Pos, 5,6, Null, 7,8 Undefined
+    meanCorrVols_Spearman = zeros(8,11);
+    semCorrVols_Spearman = zeros(8,11);%lines odds CompPatt, evens PattComp, 1,2 Neg, 3,4 Pos, 5,6, Null, 7,8 Undefined
     meanCorrVols_Pearson = zeros(8,11);
+    semCorrVols_Pearson = zeros(8,11);
 %%    
     figure('position',[50 50 700 400]);
     %figure('position', [50 50 900 900]);
@@ -252,23 +254,33 @@ for cc = 1:nCombinations
         meanCorrVols_Spearman(idx+1,:) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).PattComp.Spearman, 'omitnan');
         meanCorrVols_Pearson(idx,:) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).CompPatt.Pearson, 'omitnan');
         meanCorrVols_Pearson(idx+1,:) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).PattComp.Pearson, 'omitnan');
+        
+        semCorrVols_Spearman(idx,:) = std(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).CompPatt.Spearman, 'omitnan') / sqrt(nRunsPerEffect_CompPatt(ee));
+        semCorrVols_Spearman(idx+1,:) = std(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).PattComp.Spearman, 'omitnan')/ sqrt(nRunsPerEffect_PattComp(ee));
+        semCorrVols_Pearson(idx,:) = std(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).CompPatt.Pearson, 'omitnan') / sqrt(nRunsPerEffect_CompPatt(ee));
+        semCorrVols_Spearman(idx+1,:) = std(corrPerEffect.(effects{ee}).(ROIs_clean{comb(cc,1)}).(ROIs_clean{comb(cc,2)}).PattComp.Spearman, 'omitnan') / sqrt(nRunsPerEffect_PattComp(ee));
+       
+        
         idx = idx+2;
          
         %% Plot CompPatt Effects (figure opened above) 
         %subplot 211
         hold on
+        line([1 1], [-1.1 1.1], 'linestyle', ':', 'color', 'k');
+        line([6 6], [-1.1 1.1], 'linestyle', ':', 'color', 'k');
+        line([11 11], [-1.1 1.1], 'linestyle', ':', 'color', 'k');
         line([0 16],[0 0],'linestyle',':','color','k')
-        e1 = errorbar([1], meanCorrPre(1,xx_CompPatt(ee)), semCorrPre(1,xx_CompPatt(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',10,'marker','.');
-        e2 = errorbar([6], meanCorrBlock(1,xx_CompPatt(ee)), semCorrBlock(1,xx_CompPatt(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',10,'marker','.');
-        e3 = errorbar([11], meanCorrPos(1,xx_CompPatt(ee)), semCorrPos(1,xx_CompPatt(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',10,'marker','.');
-        e4 = plot(1:11, meanCorrVols_Spearman(2*ee-1,:), 'color',clrMap(6+3*ee,:));
+        e1 = errorbar([1], meanCorrPre(1,xx_CompPatt(ee)), semCorrPre(1,xx_CompPatt(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',20,'marker','.');
+        e2 = errorbar([6], meanCorrBlock(1,xx_CompPatt(ee)), semCorrBlock(1,xx_CompPatt(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',20,'marker','.');
+        e3 = errorbar([11], meanCorrPos(1,xx_CompPatt(ee)), semCorrPos(1,xx_CompPatt(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',20,'marker','.');
+        e4 = errorbar(1:11, meanCorrVols_Spearman(2*ee-1,:), semCorrVols_Spearman(2*ee-1,:), 'color',clrMap(6+3*ee,:),'linestyle','-','linewidth', 2,'markersize',1,'marker','.');
         LH(ee) = plot(nan, nan, '-' , 'color',clrMap(6+3*ee,:),'linewidth',2);
-        H{ee} = effects{ee};
+        H{ee} = sprintf('%s (N=%d)',effects{ee}, nRunsPerEffect_CompPatt(ee));
     end
 
     hold off
     legend(LH, H,'location','best')
-    xlabel('Time ???'); xlim([0 12]);
+    xlabel('Sliding window'); xlim([0 12]);
     xticks([1 6 11]); xticklabels({'Before effect block', 'Effect block', 'After effect block'});
     ylabel('Spearman correlation'); ylim([-1.1 1.1]);
     title(sprintf('%s <--> %s \n CompPatt ',ROIs_clean{comb(cc,1)},ROIs_clean{comb(cc,2)}),'interpreter','none')
@@ -279,18 +291,21 @@ for cc = 1:nCombinations
     for ee = 1:nEffects
                 
         hold on
+        line([1 1], [-1.1 1.1], 'linestyle', ':', 'color', 'k');
+        line([6 6], [-1.1 1.1], 'linestyle', ':', 'color', 'k');
+        line([11 11], [-1.1 1.1], 'linestyle', ':', 'color', 'k');
         line([0 16],[0 0],'linestyle',':','color','k')
-        e1 = errorbar([1], meanCorrPre(1,xx_PattComp(ee)), semCorrPre(1,xx_PattComp(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',10,'marker','.');
-        e2 = errorbar([6], meanCorrBlock(1,xx_PattComp(ee)), semCorrBlock(1,xx_PattComp(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',10,'marker','.');
-        e3 = errorbar([11], meanCorrPos(1,xx_PattComp(ee)), semCorrPos(1,xx_PattComp(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',10,'marker','.');
-        e4 = plot(1:11, meanCorrVols_Spearman(2*ee,:), 'color',clrMap(6+3*ee,:));
+        e1 = errorbar([1], meanCorrPre(1,xx_PattComp(ee)), semCorrPre(1,xx_PattComp(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',20,'marker','.');
+        e2 = errorbar([6], meanCorrBlock(1,xx_PattComp(ee)), semCorrBlock(1,xx_PattComp(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',20,'marker','.');
+        e3 = errorbar([11], meanCorrPos(1,xx_PattComp(ee)), semCorrPos(1,xx_PattComp(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',20,'marker','.');
+        e4 = errorbar(1:11, meanCorrVols_Spearman(2*ee,:), semCorrVols_Spearman(2*ee,:), 'color',clrMap(6+3*ee,:),'linestyle', '-', 'linewidth', 2, 'markersize', 1, 'marker', '.');
         LH(ee) = plot(nan, nan, '-' , 'color',clrMap(6+3*ee,:),'linewidth',2);
-        H{ee} = effects{ee};
+        H{ee} = sprintf('%s (N=%d)',effects{ee}, nRunsPerEffect_PattComp(ee));
     end
     
     hold off
     legend(LH, H,'location','best')
-    xlabel('Time ???'); xlim([0 12]);
+    xlabel('Sliding window'); xlim([0 12]);
     xticks([1 6 11]); xticklabels({'Before effect block', 'Effect block', 'After effect block'});
     ylabel('Spearman correlation'); ylim([-1.1 1.1]);
     title(sprintf('%s <--> %s \n PattComp ',ROIs_clean{comb(cc,1)},ROIs_clean{comb(cc,2)}),'interpreter','none')
@@ -302,18 +317,21 @@ for cc = 1:nCombinations
     for ee = 1:nEffects
         
         hold on
+        line([1 1], [-1.1 1.1], 'linestyle', ':', 'color', 'k');
+        line([6 6], [-1.1 1.1], 'linestyle', ':', 'color', 'k');
+        line([11 11], [-1.1 1.1], 'linestyle', ':', 'color', 'k');
         line([0 16],[0 0],'linestyle',':','color','k')
-        e1 = errorbar([1], meanCorrPre(2,xx_CompPatt(ee)), semCorrPre(2,xx_CompPatt(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',10,'marker','.');
-        e2 = errorbar([6], meanCorrBlock(2,xx_CompPatt(ee)), semCorrBlock(2,xx_CompPatt(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',10,'marker','.');
-        e3 = errorbar([11], meanCorrPos(2,xx_CompPatt(ee)), semCorrPos(2,xx_CompPatt(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',10,'marker','.');
-        e4 = plot(1:11, meanCorrVols_Pearson(2*ee-1,:), 'color',clrMap(6+3*ee,:));
+        e1 = errorbar([1], meanCorrPre(2,xx_CompPatt(ee)), semCorrPre(2,xx_CompPatt(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',20,'marker','.');
+        e2 = errorbar([6], meanCorrBlock(2,xx_CompPatt(ee)), semCorrBlock(2,xx_CompPatt(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',20,'marker','.');
+        e3 = errorbar([11], meanCorrPos(2,xx_CompPatt(ee)), semCorrPos(2,xx_CompPatt(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',20,'marker','.');
+        e4 = errorbar(1:11, meanCorrVols_Pearson(2*ee-1,:), semCorrVols_Pearson(2*ee-1,:),'color',clrMap(6+3*ee,:), 'linestyle', '-', 'linewidth', 2, 'markersize', 1, 'marker', '.');
         LH(ee) = plot(nan, nan, '-' , 'color',clrMap(6+3*ee,:),'linewidth',2);
-        H{ee} = effects{ee};
+        H{ee} = sprintf('%s (N=%d)',effects{ee}, nRunsPerEffect_CompPatt(ee));
     end
     
     hold off
     legend(LH, H,'location','best')
-    xlabel('Time ???'); xlim([0 12]);
+    xlabel('Sliding window'); xlim([0 12]);
     xticks([1 6 11]); xticklabels({'Before effect block', 'Effect block', 'After effect block'});
     ylabel('Pearson correlation'); ylim([-1.1 1.1]);
     title(sprintf('%s <--> %s \n CompPatt ',ROIs_clean{comb(cc,1)},ROIs_clean{comb(cc,2)}),'interpreter','none')
@@ -324,18 +342,21 @@ for cc = 1:nCombinations
     for ee = 1:nEffects
                 
         hold on
+        line([1 1], [-1.1 1.1], 'linestyle', ':', 'color', 'k');
+        line([6 6], [-1.1 1.1], 'linestyle', ':', 'color', 'k');
+        line([11 11], [-1.1 1.1], 'linestyle', ':', 'color', 'k');
         line([0 16],[0 0],'linestyle',':','color','k')
-        e1 = errorbar([1], meanCorrPre(2,xx_PattComp(ee)), semCorrPre(2,xx_PattComp(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',10,'marker','.');
-        e2 = errorbar([6], meanCorrBlock(2,xx_PattComp(ee)), semCorrBlock(2,xx_PattComp(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',10,'marker','.');
-        e3 = errorbar([11], meanCorrPos(2,xx_PattComp(ee)), semCorrPos(2,xx_PattComp(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',10,'marker','.');
-        e4 = plot(1:11, meanCorrVols_Pearson(2*ee,:), 'color',clrMap(6+3*ee,:));
+        e1 = errorbar([1], meanCorrPre(2,xx_PattComp(ee)), semCorrPre(2,xx_PattComp(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',20,'marker','.');
+        e2 = errorbar([6], meanCorrBlock(2,xx_PattComp(ee)), semCorrBlock(2,xx_PattComp(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',20,'marker','.');
+        e3 = errorbar([11], meanCorrPos(2,xx_PattComp(ee)), semCorrPos(2,xx_PattComp(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',20,'marker','.');
+        e4 = errorbar(1:11, meanCorrVols_Pearson(2*ee,:), semCorrVols_Pearson(2*ee,:), 'color',clrMap(6+3*ee,:),'linestyle', '-', 'linewidth', 2, 'markersize', 1, 'marker', '.');
         LH(ee) = plot(nan, nan, '-' , 'color',clrMap(6+3*ee,:),'linewidth',2);
-        H{ee} = effects{ee};
+        H{ee} =  sprintf('%s (N=%d)',effects{ee}, nRunsPerEffect_PattComp(ee));
     end
 
     hold off
     legend(LH, H,'location','best')
-    xlabel('Time ???'); xlim([0 12]);
+    xlabel('Sliding window'); xlim([0 12]);
     xticks([1 6 11]); xticklabels({'Before effect block', 'Effect block', 'After effect block'});
     ylabel('Pearson correlation'); ylim([-1.1 1.1]);
     title(sprintf('%s <--> %s \n PattComp ',ROIs_clean{comb(cc,1)},ROIs_clean{comb(cc,2)}),'interpreter','none')
