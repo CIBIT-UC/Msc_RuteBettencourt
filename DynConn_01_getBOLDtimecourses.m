@@ -1,8 +1,8 @@
 %% get denoised BOLD timecourses from the CONN project
 clear,clc
 
-%dataFolder = '/DATAPOOL/VPHYSTERESIS/CONN_Projects/conn_project_task-main/results/preprocessing';
-dataFolder = '/home/alexandresayal/media-sim01/DATAPOOL/VPHYSTERESIS/CONN_Projects/conn_project_task-main/results/preprocessing';
+dataFolder = '/DATAPOOL/VPHYSTERESIS/CONN_Projects/conn_project_task-main/results/preprocessing';
+%dataFolder = '/home/alexandresayal/media-sim01/DATAPOOL/VPHYSTERESIS/CONN_Projects/conn_project_task-main/results/preprocessing';
 
 subjects = 1:25;
 
@@ -14,8 +14,11 @@ run2Volumes = 267:532;
 run3Volumes = 533:798;
 run4Volumes = 799:1064; %from data_sessions
 
-ROIs = {'FEF_bilateral_roi','IPS_bilateral_roi','Insula_right_roi','SPL_bilateral_roi','V3A_bilateral_roi','hMT+_bilateral_roi','SS_hMT+_bilateral'};
-ROIs_clean = strrep(ROIs,'+',''); % remove '+' from strings - invalid struct fieldname
+ROIs = {'FEF_bilateral_roi','IPS_bilateral_roi','Insula_right_roi','SPL_bilateral_roi','V3A_bilateral_roi','hMT+_bilateral_roi','SS_hMT+_bilateral', 'Sph_hMT_SS_bilateral'};
+aux = strrep(ROIs, '_roi', '');
+ROIs_clean = strrep(aux,'+',''); % remove '+' from strings - invalid struct fieldname
+
+
 nROIs = length(ROIs);
 
 for sub = subjects
@@ -40,8 +43,4 @@ end
 
 %% save
 
-save('ROIs_BOLD_timecourse.mat','BOLD_denoised_timecourse','ROIs_clean','nROIs')
-
-
-
-
+save('ROIs_BOLD_timecourse_p2.mat','BOLD_denoised_timecourse','ROIs_clean','nROIs')
