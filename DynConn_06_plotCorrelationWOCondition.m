@@ -289,7 +289,7 @@ for cc = 1:nCombinations
     
     %% Plot Effects 
     fig1 = figure('position',[50 50 1100 900]);
-    for ee = 1:nEffects-2 %Positive and Negative Hysteresis   
+    for ee = 1:nEffects-1 %Positive and Negative Hysteresis   
         %subplot 211
         hold on
         line([1 1], [-1.1 1.1], 'linestyle', ':', 'color', 'k'); %x = 1
@@ -321,215 +321,215 @@ for cc = 1:nCombinations
     %title('SPL <--> Subject-specific spherical hMT+', 'FontSize', 20)
     saveas(fig1, fullfile(saveFig1Path,sprintf('%s-%s.png',ROIs_clean{comb(cc,1)},ROIs_clean{comb(cc,2)})));
     
-    %% Plot Effects Pearson 
-    fig2 = figure('Position', [50 50 1100 900])    
-    
-    for ee = 1:nEffects-2
-        
-        hold on
-        line([1 1], [-1.1 1.1], 'linestyle', ':', 'color', 'k'); %x=1
-        line([6 6], [-1.1 1.1], 'linestyle', ':', 'color', 'k'); %x=6
-        line([11 11], [-1.1 1.1], 'linestyle', ':', 'color', 'k'); %x=11
-        line([0 16],[0 0],'linestyle',':','color','k') %y=0
-        e1 = errorbar([1], meanCorrPre(2,xx(ee)), semCorrPre(2,xx(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',20,'marker','.');
-        e2 = errorbar([6], meanCorrBlock(2,xx(ee)), semCorrBlock(2,xx(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',20,'marker','.');
-        e3 = errorbar([11], meanCorrPos(2,xx(ee)), semCorrPos(2,xx(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',20,'marker','.');
-        e4 = errorbar(1:11, meanCorrVols_Pearson(ee,:), semCorrVols_Pearson(ee,:),'color',clrMap(6+3*ee,:), 'linestyle', '-', 'linewidth', 2, 'markersize', 1, 'marker', '.');
-        LH(ee) = plot(nan, nan, '-' , 'color',clrMap(6+3*ee,:),'linewidth',2);
-        H{ee} = sprintf('%s (N=%d)',effects_plot{ee}, nRunsPerEffect_CompPatt(ee)+nRunsPerEffect_PattComp(ee));
-    end
-    
-    hold off
-    legend(LH, H,'location','southeast', 'FontSize', 20)
-    xlabel('Sliding window (N = 5)', 'FontSize', 20); xlim([0 12]);
-    xticks([1 6 11]); xticklabels({'Before effect block', 'Effect block', 'After effect block'});
-    ylabel('Pearson correlation', 'FontSize', 20); 
-    if cc == 26 || cc == 27 || cc == 28
-        ylim([0.2 1]);
-    else
-        ylim([-0.2 0.7]);
-    end
-    
-    title(sprintf('%s \x2194 %s',ROIs_titles{comb(cc,1)},ROIs_titles{comb(cc,2)}),'FontSize', 20)
-    
-    saveas(fig2, fullfile(saveFig2Path,sprintf('%s-%s.png',ROIs_clean{comb(cc,1)},ROIs_clean{comb(cc,2)})));
-    
-   
-end %Combinations
-
-%%
-save('correlation_per_effect_p2.mat', 'corrPerEffect');
-save('meanCorrelation.mat', 'meanCorr')
-%% hMT comparison plots
-xx = 1:3; %four effect
-
-
-for rr = 1:5 %ROI indexes that aren't hMT
-    
-    %% Define matrixes
-    meanCorrBlock = zeros(3,4); % lines: 1 hMT_bilateral, 2 SS_hMT_bilateral, 3 Sph_hMT_SS_bilateral, columns effects
-    semCorrBlock = zeros(3,4);
-    meanCorrPre = zeros(3,4);
-    semCorrPre = zeros(3,4);
-    meanCorrPos = zeros(3,4);
-    semCorrPos = zeros(3,4);
-    meanCorrVols_Spearman = zeros(12,11);
-    semCorrVols_Spearman = zeros(12,11);%lines effects (1st 4 group, 5-8 SS hMT cluster, 9-12 spherical, column correlations TCs
-    
-    %Preprare iteration
-    idx = 1; %matrix index
-    aux = 1; %subplot index
-    
-    %Open figure
-    fig3 = figure('position',[50 50 1100 900]);
-      
-    for mt = 6:8 %ROI indexes that are hMT
-            
-    % calculate means and SEM for each effect
-        for ee = xx
-
-            %Before effect block
-            meanCorrPre(idx,ee) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{rr}).(ROIs_clean{mt}).Spearman(:,1), 'omitnan');
-            semCorrPre(idx,ee) = std(corrPerEffect.(effects{ee}).(ROIs_clean{rr}).(ROIs_clean{mt}).Spearman(:,1), 'omitnan') / sqrt(nRunsPerEffect_CompPatt(ee)+nRunsPerEffect_PattComp(ee));
-
-            %During effect block
-            meanCorrBlock(idx,ee) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{rr}).(ROIs_clean{mt}).Spearman(:,6));
-            semCorrBlock(idx,ee) = std(corrPerEffect.(effects{ee}).(ROIs_clean{rr}).(ROIs_clean{mt}).Spearman(:,6)) / sqrt(nRunsPerEffect_CompPatt(ee)+nRunsPerEffect_PattComp(ee));
-
-            %After effect block
-            meanCorrPos(idx,ee) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{rr}).(ROIs_clean{mt}).Spearman(:,11), 'omitnan');
-            semCorrPos(idx,ee) = std(corrPerEffect.(effects{ee}).(ROIs_clean{rr}).(ROIs_clean{mt}).Spearman(:,11), 'omitnan') / sqrt(nRunsPerEffect_CompPatt(ee)+nRunsPerEffect_PattComp(ee));
-
-            %The 11 correlation volumes
-            meanCorrVols_Spearman(ee,:) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{rr}).(ROIs_clean{mt}).Spearman, 'omitnan');
-            semCorrVols_Spearman(ee,:) = std(corrPerEffect.(effects{ee}).(ROIs_clean{rr}).(ROIs_clean{mt}).Spearman, 'omitnan') / sqrt(nRunsPerEffect_CompPatt(ee)+nRunsPerEffect_PattComp(ee));
-
-        end %end ee iteration
-        
-    
-   
-        %% Plot Spearman effects 
-        subplot(2,2,aux) %Open subplot
-
-        for ee = xx   
-
-            hold on
-            line([1 1], [-1.1 1.1], 'linestyle', ':', 'color', 'k'); %x = 1
-            line([6 6], [-1.1 1.1], 'linestyle', ':', 'color', 'k'); %x = 6
-            line([11 11], [-1.1 1.1], 'linestyle', ':', 'color', 'k'); %x = 11
-            line([0 16],[0 0],'linestyle',':','color','k') %y=0
-            e1 = errorbar([1], meanCorrPre(idx,xx(ee)), semCorrPre(idx,xx(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',20,'marker','.');
-            e2 = errorbar([6], meanCorrBlock(idx,xx(ee)), semCorrBlock(idx,xx(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',20,'marker','.');
-            e3 = errorbar([11], meanCorrPos(idx,xx(ee)), semCorrPos(idx,xx(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',20,'marker','.');
-            e4 = errorbar(1:11, meanCorrVols_Spearman(ee,:), semCorrVols_Spearman(ee,:), 'color',clrMap(6+3*ee,:),'linestyle','-','linewidth', 2,'markersize',1,'marker','.');
-            LH(ee) = plot(nan, nan, '-' , 'color',clrMap(6+3*ee,:),'linewidth',2);
-            H{ee} = sprintf('%s (N=%d)',effects{ee}, nRunsPerEffect_CompPatt(ee)+nRunsPerEffect_PattComp(ee));
-            
-        end
-
-        hold off
-        %Subplot properties
-        xlabel('Sliding window (N=5)', 'FontSize', 20); xlim([0 12]);
-        xticks([1 6 11]); xticklabels({'Before effect block', 'Effect block', 'After effect block'});
-        ylabel('Spearman correlation', 'FontSize', 20); ylim([-0.25 0.65]);
-
-%         if rr == 4 || rr == 5
-%             ylim([0.1 0.6]);
-%         else
-%             ylim([-0.05 0.45]);
+%     %% Plot Effects Pearson 
+%     fig2 = figure('Position', [50 50 1100 900])    
+%     
+%     for ee = 1:nEffects-2
+%         
+%         hold on
+%         line([1 1], [-1.1 1.1], 'linestyle', ':', 'color', 'k'); %x=1
+%         line([6 6], [-1.1 1.1], 'linestyle', ':', 'color', 'k'); %x=6
+%         line([11 11], [-1.1 1.1], 'linestyle', ':', 'color', 'k'); %x=11
+%         line([0 16],[0 0],'linestyle',':','color','k') %y=0
+%         e1 = errorbar([1], meanCorrPre(2,xx(ee)), semCorrPre(2,xx(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',20,'marker','.');
+%         e2 = errorbar([6], meanCorrBlock(2,xx(ee)), semCorrBlock(2,xx(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',20,'marker','.');
+%         e3 = errorbar([11], meanCorrPos(2,xx(ee)), semCorrPos(2,xx(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',20,'marker','.');
+%         e4 = errorbar(1:11, meanCorrVols_Pearson(ee,:), semCorrVols_Pearson(ee,:),'color',clrMap(6+3*ee,:), 'linestyle', '-', 'linewidth', 2, 'markersize', 1, 'marker', '.');
+%         LH(ee) = plot(nan, nan, '-' , 'color',clrMap(6+3*ee,:),'linewidth',2);
+%         H{ee} = sprintf('%s (N=%d)',effects_plot{ee}, nRunsPerEffect_CompPatt(ee)+nRunsPerEffect_PattComp(ee));
+%     end
+%     
+%     hold off
+%     legend(LH, H,'location','southeast', 'FontSize', 20)
+%     xlabel('Sliding window (N = 5)', 'FontSize', 20); xlim([0 12]);
+%     xticks([1 6 11]); xticklabels({'Before effect block', 'Effect block', 'After effect block'});
+%     ylabel('Pearson correlation', 'FontSize', 20); 
+%     if cc == 26 || cc == 27 || cc == 28
+%         ylim([0.2 1]);
+%     else
+%         ylim([-0.2 0.7]);
+%     end
+%     
+%     title(sprintf('%s \x2194 %s',ROIs_titles{comb(cc,1)},ROIs_titles{comb(cc,2)}),'FontSize', 20)
+%     
+%     saveas(fig2, fullfile(saveFig2Path,sprintf('%s-%s.png',ROIs_clean{comb(cc,1)},ROIs_clean{comb(cc,2)})));
+%     
+%    
+ end %Combinations
+% 
+% %%
+% save('correlation_per_effect_p2.mat', 'corrPerEffect');
+% save('meanCorrelation.mat', 'meanCorr')
+% %% hMT comparison plots
+% xx = 1:3; %four effect
+% 
+% 
+% for rr = 1:5 %ROI indexes that aren't hMT
+%     
+%     %% Define matrixes
+%     meanCorrBlock = zeros(3,4); % lines: 1 hMT_bilateral, 2 SS_hMT_bilateral, 3 Sph_hMT_SS_bilateral, columns effects
+%     semCorrBlock = zeros(3,4);
+%     meanCorrPre = zeros(3,4);
+%     semCorrPre = zeros(3,4);
+%     meanCorrPos = zeros(3,4);
+%     semCorrPos = zeros(3,4);
+%     meanCorrVols_Spearman = zeros(12,11);
+%     semCorrVols_Spearman = zeros(12,11);%lines effects (1st 4 group, 5-8 SS hMT cluster, 9-12 spherical, column correlations TCs
+%     
+%     %Preprare iteration
+%     idx = 1; %matrix index
+%     aux = 1; %subplot index
+%     
+%     %Open figure
+%     fig3 = figure('position',[50 50 1100 900]);
+%       
+%     for mt = 6:8 %ROI indexes that are hMT
+%             
+%     % calculate means and SEM for each effect
+%         for ee = xx
+% 
+%             %Before effect block
+%             meanCorrPre(idx,ee) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{rr}).(ROIs_clean{mt}).Spearman(:,1), 'omitnan');
+%             semCorrPre(idx,ee) = std(corrPerEffect.(effects{ee}).(ROIs_clean{rr}).(ROIs_clean{mt}).Spearman(:,1), 'omitnan') / sqrt(nRunsPerEffect_CompPatt(ee)+nRunsPerEffect_PattComp(ee));
+% 
+%             %During effect block
+%             meanCorrBlock(idx,ee) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{rr}).(ROIs_clean{mt}).Spearman(:,6));
+%             semCorrBlock(idx,ee) = std(corrPerEffect.(effects{ee}).(ROIs_clean{rr}).(ROIs_clean{mt}).Spearman(:,6)) / sqrt(nRunsPerEffect_CompPatt(ee)+nRunsPerEffect_PattComp(ee));
+% 
+%             %After effect block
+%             meanCorrPos(idx,ee) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{rr}).(ROIs_clean{mt}).Spearman(:,11), 'omitnan');
+%             semCorrPos(idx,ee) = std(corrPerEffect.(effects{ee}).(ROIs_clean{rr}).(ROIs_clean{mt}).Spearman(:,11), 'omitnan') / sqrt(nRunsPerEffect_CompPatt(ee)+nRunsPerEffect_PattComp(ee));
+% 
+%             %The 11 correlation volumes
+%             meanCorrVols_Spearman(ee,:) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{rr}).(ROIs_clean{mt}).Spearman, 'omitnan');
+%             semCorrVols_Spearman(ee,:) = std(corrPerEffect.(effects{ee}).(ROIs_clean{rr}).(ROIs_clean{mt}).Spearman, 'omitnan') / sqrt(nRunsPerEffect_CompPatt(ee)+nRunsPerEffect_PattComp(ee));
+% 
+%         end %end ee iteration
+%         
+%     
+%    
+%         %% Plot Spearman effects 
+%         subplot(2,2,aux) %Open subplot
+% 
+%         for ee = xx   
+% 
+%             hold on
+%             line([1 1], [-1.1 1.1], 'linestyle', ':', 'color', 'k'); %x = 1
+%             line([6 6], [-1.1 1.1], 'linestyle', ':', 'color', 'k'); %x = 6
+%             line([11 11], [-1.1 1.1], 'linestyle', ':', 'color', 'k'); %x = 11
+%             line([0 16],[0 0],'linestyle',':','color','k') %y=0
+%             e1 = errorbar([1], meanCorrPre(idx,xx(ee)), semCorrPre(idx,xx(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',20,'marker','.');
+%             e2 = errorbar([6], meanCorrBlock(idx,xx(ee)), semCorrBlock(idx,xx(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',20,'marker','.');
+%             e3 = errorbar([11], meanCorrPos(idx,xx(ee)), semCorrPos(idx,xx(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',20,'marker','.');
+%             e4 = errorbar(1:11, meanCorrVols_Spearman(ee,:), semCorrVols_Spearman(ee,:), 'color',clrMap(6+3*ee,:),'linestyle','-','linewidth', 2,'markersize',1,'marker','.');
+%             LH(ee) = plot(nan, nan, '-' , 'color',clrMap(6+3*ee,:),'linewidth',2);
+%             H{ee} = sprintf('%s (N=%d)',effects{ee}, nRunsPerEffect_CompPatt(ee)+nRunsPerEffect_PattComp(ee));
+%             
 %         end
-        title(sprintf('%s \x2194 %s',ROIs_titles{rr},ROIs_titles{mt}), 'FontSize', 20)
-        
-        %Prepare next iteration
-        idx = idx + 1;
-        aux = aux+1;
-        
-    end %end mt iteration
-    
-    %Figure properties
-    legend(LH(xx), H(xx),'Position', [0.7 0.4 0.001 0.001], 'FontSize', 20);
-    saveas(fig3, fullfile(saveFig3Path,sprintf('%s.png',ROIs_clean{rr})));
-    
-    
-    %% Pearson
-    
-    %Define matrixes
-    meanCorrBlock = zeros(3,4); % lines: 1 hMT_bilateral, 2 SS_hMT_bilateral, 3 Sph_hMT_SS_bilateral, columns effects
-    semCorrBlock = zeros(3,4);
-    meanCorrPre = zeros(3,4);
-    semCorrPre = zeros(3,4);
-    meanCorrPos = zeros(3,4);
-    semCorrPos = zeros(3,4);
-    meanCorrVols_Pearson = zeros(12,11);
-    semCorrVols_Pearson = zeros(12,11);
-    
-    %Prepare iteration
-    idx = 1; %For the different mts
-    aux = 1; %For the subplot position
-    
-    %Open figure for Pearson correlation
-    fig4 = figure('position',[50 50 1100 900]);
-    
-    for mt = 6:8 %ROIindexes that are hMT
-            
-    % calculate means and SEM for each effect
-        for ee = 1:nEffects
-
-            %Before effect block
-            meanCorrPre(idx,ee) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{rr}).(ROIs_clean{mt}).Pearson(:,1), 'omitnan');
-            semCorrPre(idx,ee) = std(corrPerEffect.(effects{ee}).(ROIs_clean{rr}).(ROIs_clean{mt}).Pearson(:,1), 'omitnan') / sqrt(nRunsPerEffect_CompPatt(ee)+nRunsPerEffect_PattComp(ee));
-          
-            %During effect block
-            meanCorrBlock(idx,ee) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{rr}).(ROIs_clean{mt}).Pearson(:,6), 'omitnan');
-            semCorrBlock(idx,ee) = std(corrPerEffect.(effects{ee}).(ROIs_clean{rr}).(ROIs_clean{mt}).Pearson(:,6)) / sqrt(nRunsPerEffect_CompPatt(ee)+nRunsPerEffect_PattComp(ee));
-           
-            %After effect block
-            meanCorrPos(idx,ee) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{rr}).(ROIs_clean{mt}).Pearson(:,11), 'omitnan');
-            semCorrPos(idx,ee) = std(corrPerEffect.(effects{ee}).(ROIs_clean{rr}).(ROIs_clean{mt}).Pearson(:,11), 'omitnan') / sqrt(nRunsPerEffect_CompPatt(ee)+nRunsPerEffect_PattComp(ee));
-            
-            %The 11 correlation volumes
-            meanCorrVols_Pearson(ee,:) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{rr}).(ROIs_clean{mt}).Pearson, 'omitnan');
-            semCorrVols_Pearson(ee,:) = std(corrPerEffect.(effects{ee}).(ROIs_clean{rr}).(ROIs_clean{mt}).Pearson, 'omitnan') / sqrt(nRunsPerEffect_CompPatt(ee)+nRunsPerEffect_PattComp(ee));
-            
-        end %end ee iteration
-        
-        %% Plot Effects 
-        subplot(2,2,aux) %open subplot
-
-        for ee = xx  
-
-            hold on
-            line([1 1], [-1.1 1.1], 'linestyle', ':', 'color', 'k'); %x = 1
-            line([6 6], [-1.1 1.1], 'linestyle', ':', 'color', 'k'); %x = 6
-            line([11 11], [-1.1 1.1], 'linestyle', ':', 'color', 'k'); %x = 11
-            line([0 16],[0 0],'linestyle',':','color','k') %y=0
-            e1 = errorbar([1], meanCorrPre(idx,xx(ee)), semCorrPre(idx,xx(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',20,'marker','.');
-            e2 = errorbar([6], meanCorrBlock(idx,xx(ee)), semCorrBlock(idx,xx(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',20,'marker','.');
-            e3 = errorbar([11], meanCorrPos(idx,xx(ee)), semCorrPos(idx,xx(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',20,'marker','.');
-            e4 = errorbar(1:11, meanCorrVols_Pearson(ee,:), semCorrVols_Pearson(ee,:), 'color',clrMap(6+3*ee,:),'linestyle','-','linewidth', 2,'markersize',1,'marker','.');
-            LH(ee) = plot(nan, nan, '-' , 'color',clrMap(6+3*ee,:),'linewidth',2);
-            H{ee} = sprintf('%s (N=%d)',effects{ee}, nRunsPerEffect_CompPatt(ee)+nRunsPerEffect_PattComp(ee));
-            
-        end %end ee iteration
-
-        hold off
-        %Subplot properties
-        xlabel('Sliding window (N = 5)', 'FontSize', 20); xlim([0 12]);
-        xticks([1 6 11]); xticklabels({'Before effect block', 'Effect block', 'After effect block'});
-        ylabel('Pearson correlation', 'FontSize', 20); ylim([-0.25 0.65]);
-
-
-        title(sprintf('%s \x2194 %s',ROIs_titles{rr},ROIs_titles{mt}), 'FontSize', 20)
-        
-        %preprare next iteration
-        idx = idx + 1;
-        aux = aux+1;
-        
-        
-    end %end mt iteration
-    
-    %Figure properties
-    legend(LH(xx), H(xx),'Position', [0.7 0.4 0.001 0.001], 'FontSize', 20);
-    saveas(fig4, fullfile(saveFig4Path,sprintf('%s.png',ROIs_clean{rr})));
-
-end %end rr iteration
+% 
+%         hold off
+%         %Subplot properties
+%         xlabel('Sliding window (N=5)', 'FontSize', 20); xlim([0 12]);
+%         xticks([1 6 11]); xticklabels({'Before effect block', 'Effect block', 'After effect block'});
+%         ylabel('Spearman correlation', 'FontSize', 20); ylim([-0.25 0.65]);
+% 
+% %         if rr == 4 || rr == 5
+% %             ylim([0.1 0.6]);
+% %         else
+% %             ylim([-0.05 0.45]);
+% %         end
+%         title(sprintf('%s \x2194 %s',ROIs_titles{rr},ROIs_titles{mt}), 'FontSize', 20)
+%         
+%         %Prepare next iteration
+%         idx = idx + 1;
+%         aux = aux+1;
+%         
+%     end %end mt iteration
+%     
+%     %Figure properties
+%     legend(LH(xx), H(xx),'Position', [0.7 0.4 0.001 0.001], 'FontSize', 20);
+%     saveas(fig3, fullfile(saveFig3Path,sprintf('%s.png',ROIs_clean{rr})));
+%     
+%     
+%     %% Pearson
+%     
+%     %Define matrixes
+%     meanCorrBlock = zeros(3,4); % lines: 1 hMT_bilateral, 2 SS_hMT_bilateral, 3 Sph_hMT_SS_bilateral, columns effects
+%     semCorrBlock = zeros(3,4);
+%     meanCorrPre = zeros(3,4);
+%     semCorrPre = zeros(3,4);
+%     meanCorrPos = zeros(3,4);
+%     semCorrPos = zeros(3,4);
+%     meanCorrVols_Pearson = zeros(12,11);
+%     semCorrVols_Pearson = zeros(12,11);
+%     
+%     %Prepare iteration
+%     idx = 1; %For the different mts
+%     aux = 1; %For the subplot position
+%     
+%     %Open figure for Pearson correlation
+%     fig4 = figure('position',[50 50 1100 900]);
+%     
+%     for mt = 6:8 %ROIindexes that are hMT
+%             
+%     % calculate means and SEM for each effect
+%         for ee = 1:nEffects
+% 
+%             %Before effect block
+%             meanCorrPre(idx,ee) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{rr}).(ROIs_clean{mt}).Pearson(:,1), 'omitnan');
+%             semCorrPre(idx,ee) = std(corrPerEffect.(effects{ee}).(ROIs_clean{rr}).(ROIs_clean{mt}).Pearson(:,1), 'omitnan') / sqrt(nRunsPerEffect_CompPatt(ee)+nRunsPerEffect_PattComp(ee));
+%           
+%             %During effect block
+%             meanCorrBlock(idx,ee) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{rr}).(ROIs_clean{mt}).Pearson(:,6), 'omitnan');
+%             semCorrBlock(idx,ee) = std(corrPerEffect.(effects{ee}).(ROIs_clean{rr}).(ROIs_clean{mt}).Pearson(:,6)) / sqrt(nRunsPerEffect_CompPatt(ee)+nRunsPerEffect_PattComp(ee));
+%            
+%             %After effect block
+%             meanCorrPos(idx,ee) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{rr}).(ROIs_clean{mt}).Pearson(:,11), 'omitnan');
+%             semCorrPos(idx,ee) = std(corrPerEffect.(effects{ee}).(ROIs_clean{rr}).(ROIs_clean{mt}).Pearson(:,11), 'omitnan') / sqrt(nRunsPerEffect_CompPatt(ee)+nRunsPerEffect_PattComp(ee));
+%             
+%             %The 11 correlation volumes
+%             meanCorrVols_Pearson(ee,:) = mean(corrPerEffect.(effects{ee}).(ROIs_clean{rr}).(ROIs_clean{mt}).Pearson, 'omitnan');
+%             semCorrVols_Pearson(ee,:) = std(corrPerEffect.(effects{ee}).(ROIs_clean{rr}).(ROIs_clean{mt}).Pearson, 'omitnan') / sqrt(nRunsPerEffect_CompPatt(ee)+nRunsPerEffect_PattComp(ee));
+%             
+%         end %end ee iteration
+%         
+%         %% Plot Effects 
+%         subplot(2,2,aux) %open subplot
+% 
+%         for ee = xx  
+% 
+%             hold on
+%             line([1 1], [-1.1 1.1], 'linestyle', ':', 'color', 'k'); %x = 1
+%             line([6 6], [-1.1 1.1], 'linestyle', ':', 'color', 'k'); %x = 6
+%             line([11 11], [-1.1 1.1], 'linestyle', ':', 'color', 'k'); %x = 11
+%             line([0 16],[0 0],'linestyle',':','color','k') %y=0
+%             e1 = errorbar([1], meanCorrPre(idx,xx(ee)), semCorrPre(idx,xx(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',20,'marker','.');
+%             e2 = errorbar([6], meanCorrBlock(idx,xx(ee)), semCorrBlock(idx,xx(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',20,'marker','.');
+%             e3 = errorbar([11], meanCorrPos(idx,xx(ee)), semCorrPos(idx,xx(ee)),'color',clrMap(6+3*ee,:),'linestyle','none','markersize',20,'marker','.');
+%             e4 = errorbar(1:11, meanCorrVols_Pearson(ee,:), semCorrVols_Pearson(ee,:), 'color',clrMap(6+3*ee,:),'linestyle','-','linewidth', 2,'markersize',1,'marker','.');
+%             LH(ee) = plot(nan, nan, '-' , 'color',clrMap(6+3*ee,:),'linewidth',2);
+%             H{ee} = sprintf('%s (N=%d)',effects{ee}, nRunsPerEffect_CompPatt(ee)+nRunsPerEffect_PattComp(ee));
+%             
+%         end %end ee iteration
+% 
+%         hold off
+%         %Subplot properties
+%         xlabel('Sliding window (N = 5)', 'FontSize', 20); xlim([0 12]);
+%         xticks([1 6 11]); xticklabels({'Before effect block', 'Effect block', 'After effect block'});
+%         ylabel('Pearson correlation', 'FontSize', 20); ylim([-0.25 0.65]);
+% 
+% 
+%         title(sprintf('%s \x2194 %s',ROIs_titles{rr},ROIs_titles{mt}), 'FontSize', 20)
+%         
+%         %preprare next iteration
+%         idx = idx + 1;
+%         aux = aux+1;
+%         
+%         
+%     end %end mt iteration
+%     
+%     %Figure properties
+%     legend(LH(xx), H(xx),'Position', [0.7 0.4 0.001 0.001], 'FontSize', 20);
+%     saveas(fig4, fullfile(saveFig4Path,sprintf('%s.png',ROIs_clean{rr})));
+% 
+% end %end rr iteration
