@@ -1,7 +1,7 @@
 %% Struct with all timecourses for sub/ROI/run
 clear all, close all, clc
 
-ROI = {'FEF', 'IPS', 'insula', 'SPL', 'V3A', 'hMT'};
+ROI = {'FEF', 'IPS', 'INSpeak', 'SPL', 'V3A', 'hMT'};
 ROI_clean = {'SS_FEF', 'SS_IPS', 'SS_Insula', 'SS_SPL', 'SS_V3A', 'SS_hMT'};
 runs = {'run1', 'run2', 'run3', 'run4'};
 
@@ -24,5 +24,5 @@ for sub = 1:25
         end % ROI iteration
     end % run iteration
 end % subject iteration
-
-save('VOIs_BOLD_timecourse.mat','BOLD_denoised_timecourse', 'ROI_clean');
+save('VOIs_BOLD_timecourse_INSpeak.mat','BOLD_denoised_timecourse', 'ROI_clean');
+%save('VOIs_BOLD_timecourse_INScorrected.mat','BOLD_denoised_timecourse', 'ROI_clean');
