@@ -38,7 +38,7 @@ nEffects = length(effects);
 
 %% Wilcoxon rank sum test - point to point
 alpha_bonferroni_corr = 0.05/3; %alpha/#tests
-p_bonfCorr = 1 -(1-alpha_bonferroni_corr)^3;
+%p_bonfCorr = 1 -(1-alpha_bonferroni_corr)^3;
 
 for cc = 1:nCombinations
     
@@ -53,7 +53,7 @@ for cc = 1:nCombinations
     stat.Spearman.Wilcoxon_3tests.PointToPoint.(ROI_clean{comb(cc,1)}).(ROI_clean{comb(cc,2)}) = [h', p'];
     
     for ii = [1 6 11]
-        if stat.Spearman.Wilcoxon_3tests.PointToPoint.(ROI_clean{comb(cc,1)}).(ROI_clean{comb(cc,2)})(ii,2) < p_bonfCorr
+        if stat.Spearman.Wilcoxon_3tests.PointToPoint.(ROI_clean{comb(cc,1)}).(ROI_clean{comb(cc,2)})(ii,2) < alpha_bonferroni_corr
             h = 1;
             p = stat.Spearman.Wilcoxon_3tests.PointToPoint.(ROI_clean{comb(cc,1)}).(ROI_clean{comb(cc,2)})(ii, 2);
             stat.Spearman.Wilcoxon_3tBonferroniCorr.(ROI_clean{comb(cc,1)}).(ROI_clean{comb(cc,2)})(ii,:) = [h, p];
