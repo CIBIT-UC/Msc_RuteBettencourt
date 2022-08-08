@@ -20,7 +20,7 @@ for sub = 1:25
         
         % Move insula to the same path
 %         
-         movefile(sprintf('/DATAPOOL/VPHYSTERESIS/BIDS-VP-HYSTERESIS/derivatives/spm_main/sub-%02d/VOIs/sub-%02d_run-%02d_insula_denoised.mat', ...
+         movefile(sprintf('/DATAPOOL/VPHYSTERESIS/BIDS-VP-HYSTERESIS/derivatives/spm_main/sub-%02d/VOIs/sub-%02d_run-%02d_INSpeak_denoised.mat', ...
                  sub, sub, run), savepath)
     end
     
