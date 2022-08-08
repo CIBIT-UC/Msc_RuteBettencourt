@@ -5,13 +5,15 @@ clear, clc, close all
 % matrixes
 KeypressData = load('Hysteresis-keypress-label-data.mat');
 
-data = load('VOIs_trialvolumes.mat'); % BOLD time courses per run/sub
-
-datacon = load('VOI_correlationTCs.mat'); % Correlation time courses (windowed)
+%data = load('VOIs_trialvolumes_INScorrected.mat'); % BOLD time courses per run/sub
+data = load('VOIs_trialvolumes_INSpeak.mat'); % BOLD time courses per run/sub
+%datacon = load('VOI_correlationTCs_INScorrected.mat'); % Correlation time courses (windowed)
+datacon = load('VOI_correlationTCs_INSpeak.mat'); % Correlation time courses (windowed)
 
 %% Define stuff
 
-load('VOIs_BOLD_timecourse.mat','ROI_clean');
+%load('VOIs_BOLD_timecourse_INScorrected.mat','ROI_clean');
+load('VOIs_BOLD_timecourse_INSpeak.mat','ROI_clean');
 nROIs = length(ROI_clean);
 
 runNames = {'run1','run2','run3','run4'};
@@ -207,8 +209,10 @@ for cc = 1:nCombinations
 end %ROIs
 
 %% Save correlations in current directory, create paths to save the plots
-save('VOI_correlation_per_effect.mat', 'corrPerEffect');
-saveFig1Path = fullfile('/DATAPOOL', 'VPHYSTERESIS', 'VOI DYN-CORR', 'SPEARMAN');
+%save('VOI_correlation_per_effect_INScorrected.mat', 'corrPerEffect');
+save('VOI_correlation_per_effect_INSpeak.mat', 'corrPerEffect');
+
+saveFig1Path = fullfile('/DATAPOOL', 'VPHYSTERESIS', 'VOI DYN-CORR', 'SPEARMAN', 'INS_correction_2');
 %saveFig2Path = fullfile('/DATAPOOL', 'VPHYSTERESIS', 'DYN-CORR-p2', 'PEARSON');
 
 if ~exist(saveFig1Path, 'dir')
@@ -316,4 +320,4 @@ for cc = 1:nCombinations
 %     
 %    
  end %Combinations
- save('VOI_meanCorrelation.mat', 'meanCorr')
+ save('VOI_meanCorrelation_INSpeak.mat', 'meanCorr')
