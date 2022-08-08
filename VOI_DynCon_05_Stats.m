@@ -6,14 +6,18 @@ clear all, close all, clc
 %% load data
 
 
-load('VOI_correlation_per_effect.mat'); % To calculate the statistical tests
+load('VOI_correlation_per_effect_INScorrected.mat'); % To calculate the statistical tests
+%load('VOI_correlation_per_effect_INSpeak.mat');
+%load('VOIs_BOLD_timecourse_INScorrected.mat','ROI_clean'); 
 
-load('VOI_meanCorrelation.mat'); % To make the plots
-load('VOIs_BOLD_timecourse.mat','ROI_clean'); 
+load('VOI_meanCorrelation_INScorrected.mat'); % To make the plots
+%load('VOI_meanCorrelation_INSpeak.mat'); % To make the plots
+
 %load('new_stat_test.mat');
 %% Define stuff
 
-
+load('VOIs_BOLD_timecourse_INScorrected.mat','ROI_clean');
+%load('VOIs_BOLD_timecourse_INSpeak.mat','ROI_clean');
 ROIs_titles  = {'Subject-specific FEF', 'Subject-specific IPS', ' Subject-specific Anterior Insula',...
     'Subject-specific SPL', 'Subject-specific V3A', 'Subject-specific hMT+'};
 
@@ -62,17 +66,21 @@ for cc = 1:nCombinations
 end
 
 %% Save stat file
-save('VOI_stat_test_BonfCorr.mat', 'stat');
-
+%save('VOI_stat_test_BonfCorr_INSpeak.mat', 'stat');
+save('VOI_stat_test_BonfCorr_INScorrected.mat', 'stat');
 %%
-saveFig2Path = fullfile('/DATAPOOL', 'VPHYSTERESIS', 'VOI DynConStat', 'PointToPoint', 'Wilcoxon test BonfCorr', 'Hyst and Null');
+saveFig2Path = fullfile('/DATAPOOL', 'VPHYSTERESIS', 'VOI DynConStat', 'INS correction 1', 'Wilcoxon test BonfCorr', 'Hyst and Null');
+
+%saveFig2Path = fullfile('/DATAPOOL', 'VPHYSTERESIS', 'VOI DynConStat', 'INS correction 2', 'Wilcoxon test BonfCorr', 'Hyst and Null');
 
 
 if ~exist(saveFig2Path, 'dir')
     mkdir(saveFig2Path);
 end
 
-saveFig1Path = fullfile('/DATAPOOL', 'VPHYSTERESIS', 'VOI DynConStat', 'PointToPoint', 'Wilcoxon test BonfCorr');
+saveFig1Path = fullfile('/DATAPOOL', 'VPHYSTERESIS', 'VOI DynConStat', 'INS correction 1', 'Wilcoxon test BonfCorr');
+
+%saveFig1Path = fullfile('/DATAPOOL', 'VPHYSTERESIS', 'VOI DynConStat', 'INS correction 2', 'Wilcoxon test BonfCorr');
 
 
 if ~exist(saveFig1Path, 'dir')
@@ -114,7 +122,7 @@ for cc = 1:nCombinations %Last 3 are MT - MT correlations
     for wdIdx = [1 6 11]
        if stat.Spearman.Wilcoxon_3tBonferroniCorr.(ROI_clean{comb(cc,1)}).(ROI_clean{comb(cc,2)})(wdIdx, 1) == 1
            
-           plot(wdIdx, 0.8, '*', 'color', 'k', 'markersize', 20, 'linewidth', 2)
+           plot(wdIdx, 0.65, '*', 'color', 'k', 'markersize', 20, 'linewidth', 2)
            
        end
     end
@@ -145,7 +153,7 @@ for cc = 1:nCombinations %Last 3 are MT - MT correlations
     
     xlabel('Sliding window (L = 5)', 'FontSize', 22); xlim([0 12]);
     xticks([1 6 11]); xticklabels({'Before effect block', 'Effect block', 'After effect block'});
-    ylabel('Spearman correlation', 'FontSize', 22); ylim([-0.2 0.9]);
+    ylabel('Spearman correlation', 'FontSize', 22); ylim([-0.2 0.75]);
     
    % set(gcf, 'PaperUnits', 'centimeters', 'PaperPosition', [0 0 7.48 10])
     %print(fig2, fullfile(saveFig2Path,sprintf('%s-%s',ROI_clean{comb(cc,1)},ROI_clean{comb(cc,2)})), '-deps2', '-r300')
@@ -214,7 +222,7 @@ for cc = 1:nCombinations %Last 3 are MT - MT correlations
     
     xlabel('Sliding window (L = 5)', 'FontSize', 22); xlim([0 12]);
     xticks([1 6 11]); xticklabels({'Before effect block', 'Effect block', 'After effect block'});
-    ylabel('Spearman correlation', 'FontSize', 22); ylim([-0.2 0.9]);
+    ylabel('Spearman correlation', 'FontSize', 22); ylim([-0.2 0.75]);
     %print(gcf, fullfile(saveFig1Path,sprintf('%s-%s.png',ROI_clean{comb(cc,1)},ROI_clean{comb(cc,2)})), '-dpng', '-r300');
     saveas(fig1, fullfile(saveFig1Path,sprintf('%s-%s.png',ROI_clean{comb(cc,1)},ROI_clean{comb(cc,2)})));
 end
