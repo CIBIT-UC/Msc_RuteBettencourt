@@ -1,7 +1,7 @@
 %%
 clear all, close all, clc
 
-for sub = 1:1
+for sub = 1:25
     %Go to the subject-specific 1st level control directory
     cd(sprintf('/DATAPOOL/VPHYSTERESIS/Backupsim02/BIDS-VP-HYSTERESIS/sub-%02d/1st_level_control', sub))
 
@@ -13,8 +13,8 @@ for sub = 1:1
     clear matlabbatch;
     matlabbatch{1}.spm.util.voi.spmmat  = cellstr(spm_mat_file);
     matlabbatch{1}.spm.util.voi.adjust  = 1;                    % Effects of interest contrast number
-    matlabbatch{1}.spm.util.voi.session = 4;                    % Session index >>>>>>>>CHECK if accepts vector
-    matlabbatch{1}.spm.util.voi.name    = 'insula_right_4';               % VOI name
+    matlabbatch{1}.spm.util.voi.session = 1;                    % Session index >>>>>>>>CHECK if accepts vector
+    matlabbatch{1}.spm.util.voi.name    = 'insula_right_10mm';               % VOI name
 
     % Define thresholded SPM for finding the subject's local peak response
     matlabbatch{1}.spm.util.voi.roi{1}.spm.spmmat      = {''};
@@ -28,7 +28,7 @@ for sub = 1:1
 
     % Define large fixed outer sphere
     matlabbatch{1}.spm.util.voi.roi{2}.sphere.centre     = [42 18 -4]; % Set coordinates here
-    matlabbatch{1}.spm.util.voi.roi{2}.sphere.radius     = 15;           % Radius (mm)
+    matlabbatch{1}.spm.util.voi.roi{2}.sphere.radius     = 10;           % Radius (mm)
     matlabbatch{1}.spm.util.voi.roi{2}.sphere.move.fixed = 1;
 
     % Define smaller inner sphere which jumps to the peak of the outer sphere
