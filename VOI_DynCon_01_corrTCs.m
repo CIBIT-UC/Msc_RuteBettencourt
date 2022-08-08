@@ -4,8 +4,8 @@
 
 
 clear all, close all, clc
-
-data = load('VOIs_BOLD_timecourse_INSpeak.mat'); % BOLD time courses
+data = load('VOIs_BOLD_timecourse_INSunc.mat');
+%data = load('VOIs_BOLD_timecourse_INSpeak.mat'); % BOLD time courses
 
 %data = load('VOIs_BOLD_timecourse_INScorrected.mat'); % BOLD time courses
 
@@ -84,7 +84,8 @@ for sub = subs
     
 end % end subject iteration
 
-save('VOIs_trialvolumes_INSpeak.mat', 'trialvol')
+save('VOIs_trialvolumes_INSunc.mat', 'trialvol')
+%save('VOIs_trialvolumes_INSpeak.mat', 'trialvol')
 %save('VOIs_trialvolumes_INScorrected.mat', 'trialvol')
 
 %% Calculate the correlations and corresponding p-values
@@ -175,5 +176,6 @@ for idx = 1:nCombinations
     
     
 end %ROIs combination iteration
-save('VOI_correlationTCs_INSpeak.mat', 'correlationTCs')
+save('VOI_correlationTCs_INSunc.mat', 'correlationTCs')
+%save('VOI_correlationTCs_INSpeak.mat', 'correlationTCs')
 %save('VOI_correlationTCs_INScorrected.mat', 'correlationTCs')

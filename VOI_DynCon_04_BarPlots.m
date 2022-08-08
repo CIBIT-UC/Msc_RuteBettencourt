@@ -2,6 +2,16 @@
 
 clear all, close all, clc
 
+%% %% load data - Insula uncorrected - Insula correction 2
+load('VOI_correlation_per_effect_INSunc.mat'); % To calculate the statistical tests
+
+load('VOI_meanCorrelation_INSunc.mat'); % To make the plots
+
+%load('new_stat_test.mat'); % To show the significance level
+
+load('VOI_stat_test_BonfCorr_INSunc.mat'); %To show the significance level with the Bonferroni correction
+load('VOIs_BOLD_timecourse_INSunc.mat','ROI_clean');
+
 %% load data - Insula corrected to 4mm sphere centered in the anterior cluster - Insula correction 1 
 %%%%%%%%%%%%%% UNCOMENT IF NEEDED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % 
@@ -15,14 +25,14 @@ clear all, close all, clc
 % load('VOIs_BOLD_timecourse_INScorrected.mat','ROI_clean');
 
 %% load data - Insula corrected to 4mm sphere centered in the peak voxel of the cluster - Insula correction 2
-load('VOI_correlation_per_effect_INSpeak.mat'); % To calculate the statistical tests
-
-load('VOI_meanCorrelation_INSpeak.mat'); % To make the plots
-
-%load('new_stat_test.mat'); % To show the significance level
-
-load('VOI_stat_test_BonfCorr_INSpeak.mat'); %To show the significance level with the Bonferroni correction
-load('VOIs_BOLD_timecourse_INSpeak.mat','ROI_clean');
+% load('VOI_correlation_per_effect_INSpeak.mat'); % To calculate the statistical tests
+% 
+% load('VOI_meanCorrelation_INSpeak.mat'); % To make the plots
+% 
+% %load('new_stat_test.mat'); % To show the significance level
+% 
+% load('VOI_stat_test_BonfCorr_INSpeak.mat'); %To show the significance level with the Bonferroni correction
+% load('VOIs_BOLD_timecourse_INSpeak.mat','ROI_clean');
 
 %% Define stuff
 
@@ -46,6 +56,10 @@ effects_plot = {'Negative Hysteresis', 'Positive Hysteresis', 'No Hysteresis', '
 nEffects = length(effects);
 
 %% Make directory to save plots
+%% Insula uncorrected
+saveFig1Path = fullfile('/DATAPOOL', 'VPHYSTERESIS', 'VOI DynCon_Bars', 'Insula unc');
+saveFig2Path = fullfile('/DATAPOOL', 'VPHYSTERESIS', 'VOI DynCon_Bars','Insula unc', 'Bonferroni Corrected');
+
 %% Insula correction 1
 %%%%%%%%%%%%%%%%%%%%%%% COMMENT/UNCOMMENT IF NEEDED
 %saveFig1Path = fullfile('/DATAPOOL', 'VPHYSTERESIS', 'VOI DynCon_Bars', 'Insula correction 1');
@@ -53,8 +67,8 @@ nEffects = length(effects);
 
 %% Insula correction 2
 %%%%%%%%%%%%%%%%%% COMMETN/UNCOMMENT IF NEEDED
-saveFig1Path = fullfile('/DATAPOOL', 'VPHYSTERESIS', 'VOI DynCon_Bars', 'Insula correction 2');
-saveFig2Path = fullfile('/DATAPOOL', 'VPHYSTERESIS', 'VOI DynCon_Bars','Insula correction 2', 'Bonferroni Corrected');
+% saveFig1Path = fullfile('/DATAPOOL', 'VPHYSTERESIS', 'VOI DynCon_Bars', 'Insula correction 2');
+% saveFig2Path = fullfile('/DATAPOOL', 'VPHYSTERESIS', 'VOI DynCon_Bars','Insula correction 2', 'Bonferroni Corrected');
 %%
 if ~exist(saveFig1Path, 'dir')
     mkdir(saveFig1Path);

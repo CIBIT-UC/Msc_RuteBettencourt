@@ -5,18 +5,19 @@ clear all, close all, clc
 
 %% load data
 
-
-load('VOI_correlation_per_effect_INScorrected.mat'); % To calculate the statistical tests
+load('VOI_correlation_per_effect_INSunc.mat');
+%load('VOI_correlation_per_effect_INScorrected.mat'); % To calculate the statistical tests
 %load('VOI_correlation_per_effect_INSpeak.mat');
 %load('VOIs_BOLD_timecourse_INScorrected.mat','ROI_clean'); 
 
-load('VOI_meanCorrelation_INScorrected.mat'); % To make the plots
+load('VOI_meanCorrelation_INSunc.mat');
+%load('VOI_meanCorrelation_INScorrected.mat'); % To make the plots
 %load('VOI_meanCorrelation_INSpeak.mat'); % To make the plots
 
 %load('new_stat_test.mat');
 %% Define stuff
-
-load('VOIs_BOLD_timecourse_INScorrected.mat','ROI_clean');
+load('VOIs_BOLD_timecourse_INSunc.mat','ROI_clean');
+%load('VOIs_BOLD_timecourse_INScorrected.mat','ROI_clean');
 %load('VOIs_BOLD_timecourse_INSpeak.mat','ROI_clean');
 ROIs_titles  = {'Subject-specific FEF', 'Subject-specific IPS', ' Subject-specific Anterior Insula',...
     'Subject-specific SPL', 'Subject-specific V3A', 'Subject-specific hMT+'};
@@ -66,10 +67,14 @@ for cc = 1:nCombinations
 end
 
 %% Save stat file
+save('VOI_stat_test_BonfCorr_INSunc.mat', 'stat');
+
 %save('VOI_stat_test_BonfCorr_INSpeak.mat', 'stat');
-save('VOI_stat_test_BonfCorr_INScorrected.mat', 'stat');
+%save('VOI_stat_test_BonfCorr_INScorrected.mat', 'stat');
 %%
-saveFig2Path = fullfile('/DATAPOOL', 'VPHYSTERESIS', 'VOI DynConStat', 'INS correction 1', 'Wilcoxon test BonfCorr', 'Hyst and Null');
+saveFig2Path = fullfile('/DATAPOOL', 'VPHYSTERESIS', 'VOI DynConStat', 'INS unc', 'Wilcoxon test BonfCorr', 'Hyst and Null');
+
+%saveFig2Path = fullfile('/DATAPOOL', 'VPHYSTERESIS', 'VOI DynConStat', 'INS correction 1', 'Wilcoxon test BonfCorr', 'Hyst and Null');
 
 %saveFig2Path = fullfile('/DATAPOOL', 'VPHYSTERESIS', 'VOI DynConStat', 'INS correction 2', 'Wilcoxon test BonfCorr', 'Hyst and Null');
 
@@ -78,7 +83,9 @@ if ~exist(saveFig2Path, 'dir')
     mkdir(saveFig2Path);
 end
 
-saveFig1Path = fullfile('/DATAPOOL', 'VPHYSTERESIS', 'VOI DynConStat', 'INS correction 1', 'Wilcoxon test BonfCorr');
+saveFig1Path = fullfile('/DATAPOOL', 'VPHYSTERESIS', 'VOI DynConStat', 'INS unc', 'Wilcoxon test BonfCorr');
+
+%saveFig1Path = fullfile('/DATAPOOL', 'VPHYSTERESIS', 'VOI DynConStat', 'INS correction 1', 'Wilcoxon test BonfCorr');
 
 %saveFig1Path = fullfile('/DATAPOOL', 'VPHYSTERESIS', 'VOI DynConStat', 'INS correction 2', 'Wilcoxon test BonfCorr');
 
