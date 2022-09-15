@@ -150,7 +150,7 @@ for cc = 1:nCombinations-3 %Last 3 are MT - MT correlations
     legend(LH, H,'location','southoutside', 'FontSize', 24,'NumColumns', 2)
     
     xlabel('Sliding window (L = 5)', 'FontSize', 22); xlim([0 12]);
-    xticks([1 6 11]); xticklabels({'Before effect block', 'Effect block', 'After effect block'});
+    xticks([1 6 11]); xticklabels({'Pre-effect block', 'Effect block', 'Post-effect block'});
     ylabel('Spearman correlation', 'FontSize', 22); ylim([-0.2 0.7]);
     
    % set(gcf, 'PaperUnits', 'centimeters', 'PaperPosition', [0 0 7.48 10])
@@ -218,7 +218,7 @@ for cc = 1:nCombinations-3 %Last 3 are MT - MT correlations
     legend(LH(1:3), H(1:3),'location','southoutside', 'FontSize', 24)
     
     xlabel('Sliding window (L = 5)', 'FontSize', 22); xlim([0 12]);
-    xticks([1 6 11]); xticklabels({'Before effect block', 'Effect block', 'After effect block'});
+    xticks([1 6 11]); xticklabels({'Pre-effect block', 'Effect block', 'Post-effect block'});
     ylabel('Spearman correlation', 'FontSize', 22); ylim([-0.2 0.7]);
     
     saveas(fig1, fullfile(saveFig1Path,sprintf('%s-%s.png',ROIs_clean{comb(cc,1)},ROIs_clean{comb(cc,2)})));

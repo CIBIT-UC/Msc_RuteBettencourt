@@ -2,7 +2,7 @@
 
 clear all, close all, clc
 
-%% %% load data - Insula uncorrected - Insula correction 2
+%% %% load data - Insula uncorrected 
 % load('VOI_correlation_per_effect_INSunc.mat'); % To calculate the statistical tests
 % 
 % load('VOI_meanCorrelation_INSunc.mat'); % To make the plots
@@ -13,7 +13,7 @@ clear all, close all, clc
 % load('VOIs_BOLD_timecourse_INSunc.mat','ROI_clean');
 
 %% load data - Insula corrected to 4mm sphere centered in the anterior cluster - Insula correction 1 
-%%%%%%%%%%%%%% UNCOMENT IF NEEDED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %%%%%%%%%%%%% UNCOMENT IF NEEDED %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 % % 
 % load('VOI_correlation_per_effect_INScorrected.mat'); % To calculate the statistical tests
 % 
@@ -66,7 +66,7 @@ nEffects = length(effects);
 % saveFig2Path = fullfile('/DATAPOOL', 'VPHYSTERESIS', 'VOI DynCon_Bars','Insula correction 1', 'Bonferroni Corrected');
 
 %% Insula correction 2
-%%%%%%%%%%%%%%%%%% COMMETN/UNCOMMENT IF NEEDED
+%%%%%%%%%%%%%%%%%% COMMENT/UNCOMMENT IF NEEDED
 saveFig1Path = fullfile('/DATAPOOL', 'VPHYSTERESIS', 'VOI DynCon_Bars', 'Insula correction 2');
 saveFig2Path = fullfile('/DATAPOOL', 'VPHYSTERESIS', 'VOI DynCon_Bars','Insula correction 2', 'Bonferroni Corrected');
 %%
@@ -253,7 +253,7 @@ for cc = 1:nCombinations
     ax.YAxis.FontSize = 18;
     
     %Axis properties
-    xticks([1 2 3]); xticklabels({'Before effect block', 'Effect block', 'After effect block'});
+    xticks([1 2 3]); xticklabels({'Pre-effect block', 'Effect block', 'Post-effect block'});
     ylabel('Spearman correlation', 'FontSize', 22); ylim([-0.3 0.75]);
 
     hold off

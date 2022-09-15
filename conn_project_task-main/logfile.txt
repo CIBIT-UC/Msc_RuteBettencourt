@@ -1,0 +1,43 @@
+2022-Jun-24 14:14  : ERROR DESCRIPTION:
+                      
+                     Error using conn_projectmanager (line 108)
+                     Unable to create file /DATAPOOL/home/rutebettencourt/Documents/GitHub/Msc_RuteBettencourt/conn_project_task-main/statusfile.open. Check folder permissions and try again
+                     Error in conn (line 1007)
+                      if CONN_x.pobj.holdsdata, conn_projectmanager('tag','open'); end
+                     Error in conn (line 5189)
+                      conn('load',filename,true);
+                     Error in conn_menumanager (line 121)
+                      feval(CONN_MM.MENU{n0}.callback{n1}{1},CONN_MM.MENU{n0}.callback{n1}{2:end}); 
+                     CONN21.a
+                     SPM12 + DAiSS DEM FieldMap LST MEEGtools TFCE cat12 marsbar
+                     Matlab v.2019b
+                     project: CONN21.b
+                     storage: 1411.0Gb available
+                      
+                     spm @ /SCRATCH/software/toolboxes/spm12
+                     conn @ /SCRATCH/software/toolboxes/conn21a
+                     Project /DATAPOOL/home/rutebettencourt/Documents/GitHub/Msc_RuteBettencourt/conn_project_task-main.mat loaded
+2022-Jun-24 14:17  : Loading /DATAPOOL/VPHYSTERESIS/CONN_Projects/conn_project_task-main/results/secondlevel/SBC_01/AllSubjects/Comp_Patt(1).Patt_Comp(1).Static(-2)/SS_hMT_bilateral/SPM.mat
+2022-Jun-24 14:19  : Suprathreshold stats file saved as /DATAPOOL/VPHYSTERESIS/CONN_Projects/conn_project_task-main/results/secondlevel/SBC_01/AllSubjects/Comp_Patt(1).Patt_Comp(1).Static(-2)/SS_hMT_bilateral/results.nii
+                     ROI file saved as /DATAPOOL/VPHYSTERESIS/CONN_Projects/conn_project_task-main/results/secondlevel/SBC_01/AllSubjects/Comp_Patt(1).Patt_Comp(1).Static(-2)/SS_hMT_bilateral/results.ROIs.nii
+2022-Jun-24 14:23  : Suprathreshold stats file saved as /DATAPOOL/VPHYSTERESIS/CONN_Projects/conn_project_task-main/results/secondlevel/SBC_01/AllSubjects/Comp_Patt(1).Patt_Comp(1).Static(-2)/SS_hMT_bilateral/results.nii
+                     ROI file saved as /DATAPOOL/VPHYSTERESIS/CONN_Projects/conn_project_task-main/results/secondlevel/SBC_01/AllSubjects/Comp_Patt(1).Patt_Comp(1).Static(-2)/SS_hMT_bilateral/results.ROIs.nii
+2022-Jun-24 14:25  : Suprathreshold stats file saved as /DATAPOOL/VPHYSTERESIS/CONN_Projects/conn_project_task-main/results/secondlevel/SBC_01/AllSubjects/Comp_Patt(1).Patt_Comp(1).Static(-2)/SS_hMT_bilateral/results.nii
+                     ROI file saved as /DATAPOOL/VPHYSTERESIS/CONN_Projects/conn_project_task-main/results/secondlevel/SBC_01/AllSubjects/Comp_Patt(1).Patt_Comp(1).Static(-2)/SS_hMT_bilateral/results.ROIs.nii
+                     Suprathreshold stats file saved as /DATAPOOL/VPHYSTERESIS/CONN_Projects/conn_project_task-main/results/secondlevel/SBC_01/AllSubjects/Comp_Patt(1).Patt_Comp(1).Static(-2)/SS_hMT_bilateral/results.nii
+                     ROI file saved as /DATAPOOL/VPHYSTERESIS/CONN_Projects/conn_project_task-main/results/secondlevel/SBC_01/AllSubjects/Comp_Patt(1).Patt_Comp(1).Static(-2)/SS_hMT_bilateral/results.ROIs.nii
+2022-Jun-24 14:29  : Suprathreshold stats file saved as /DATAPOOL/VPHYSTERESIS/CONN_Projects/conn_project_task-main/results/secondlevel/SBC_01/AllSubjects/Comp_Patt(1).Patt_Comp(1).Static(-2)/SS_hMT_bilateral/results.nii
+                     ROI file saved as /DATAPOOL/VPHYSTERESIS/CONN_Projects/conn_project_task-main/results/secondlevel/SBC_01/AllSubjects/Comp_Patt(1).Patt_Comp(1).Static(-2)/SS_hMT_bilateral/results.ROIs.nii
+2022-Jun-24 14:33  : Suprathreshold stats file saved as /DATAPOOL/VPHYSTERESIS/CONN_Projects/conn_project_task-main/results/secondlevel/SBC_01/AllSubjects/Comp_Patt(1).Patt_Comp(1).Static(-2)/SS_hMT_bilateral/results.nii
+                     ROI file saved as /DATAPOOL/VPHYSTERESIS/CONN_Projects/conn_project_task-main/results/secondlevel/SBC_01/AllSubjects/Comp_Patt(1).Patt_Comp(1).Static(-2)/SS_hMT_bilateral/results.ROIs.nii
+2022-Jun-24 14:36  : Loading /DATAPOOL/VPHYSTERESIS/CONN_Projects/conn_project_task-main/results/secondlevel/SBC_01/AllSubjects/Comp_Patt(1).Patt_Comp(1).Static(-2)/Insula_right_roi/SPM.mat
+2022-Jun-24 14:39  : Suprathreshold stats file saved as /DATAPOOL/VPHYSTERESIS/CONN_Projects/conn_project_task-main/results/secondlevel/SBC_01/AllSubjects/Comp_Patt(1).Patt_Comp(1).Static(-2)/Insula_right_roi/results.nii
+                     ROI file saved as /DATAPOOL/VPHYSTERESIS/CONN_Projects/conn_project_task-main/results/secondlevel/SBC_01/AllSubjects/Comp_Patt(1).Patt_Comp(1).Static(-2)/Insula_right_roi/results.ROIs.nii
+2022-Jun-24 14:40  : Suprathreshold stats file saved as /DATAPOOL/VPHYSTERESIS/CONN_Projects/conn_project_task-main/results/secondlevel/SBC_01/AllSubjects/Comp_Patt(1).Patt_Comp(1).Static(-2)/Insula_right_roi/results.nii
+                     ROI file saved as /DATAPOOL/VPHYSTERESIS/CONN_Projects/conn_project_task-main/results/secondlevel/SBC_01/AllSubjects/Comp_Patt(1).Patt_Comp(1).Static(-2)/Insula_right_roi/results.ROIs.nii
+2022-Jun-24 14:43  : Suprathreshold stats file saved as /DATAPOOL/VPHYSTERESIS/CONN_Projects/conn_project_task-main/results/secondlevel/SBC_01/AllSubjects/Comp_Patt(1).Patt_Comp(1).Static(-2)/Insula_right_roi/results.nii
+                     ROI file saved as /DATAPOOL/VPHYSTERESIS/CONN_Projects/conn_project_task-main/results/secondlevel/SBC_01/AllSubjects/Comp_Patt(1).Patt_Comp(1).Static(-2)/Insula_right_roi/results.ROIs.nii
+2022-Jun-24 14:44  : Suprathreshold stats file saved as /DATAPOOL/VPHYSTERESIS/CONN_Projects/conn_project_task-main/results/secondlevel/SBC_01/AllSubjects/Comp_Patt(1).Patt_Comp(1).Static(-2)/Insula_right_roi/results.nii
+                     ROI file saved as /DATAPOOL/VPHYSTERESIS/CONN_Projects/conn_project_task-main/results/secondlevel/SBC_01/AllSubjects/Comp_Patt(1).Patt_Comp(1).Static(-2)/Insula_right_roi/results.ROIs.nii
+2022-Jun-24 14:47  : Suprathreshold stats file saved as /DATAPOOL/VPHYSTERESIS/CONN_Projects/conn_project_task-main/results/secondlevel/SBC_01/AllSubjects/Comp_Patt(1).Patt_Comp(1).Static(-2)/Insula_right_roi/results.nii
+                     ROI file saved as /DATAPOOL/VPHYSTERESIS/CONN_Projects/conn_project_task-main/results/secondlevel/SBC_01/AllSubjects/Comp_Patt(1).Patt_Comp(1).Static(-2)/Insula_right_roi/results.ROIs.nii

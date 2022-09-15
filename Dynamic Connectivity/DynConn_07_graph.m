@@ -225,7 +225,7 @@ for cc = 1:nCombinations-3
     ax.YAxis.FontSize = 18;
     
     %Axis properties
-    xticks([1 2 3]); xticklabels({'Before effect block', 'Effect block', 'After effect block'});
+    xticks([1 2 3]); xticklabels({'Pre-effect block', 'Effect block', 'Post-effect block'});
     ylabel('Spearman correlation', 'FontSize', 22); ylim([-0.2 0.7]);
 
     hold off
