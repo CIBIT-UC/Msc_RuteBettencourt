@@ -25,8 +25,8 @@ effects_plot = {'Negative Hysteresis', 'Positive Hysteresis', 'No Hysteresis', '
 nEffects = length(effects);
 
 %%
-saveFig1Path = fullfile('/DATAPOOL', 'VPHYSTERESIS', 'VOI_ConnMatrix');
-
+%saveFig1Path = fullfile('/DATAPOOL', 'VPHYSTERESIS', 'VOI_ConnMatrix');
+saveFig1Path = 'C:\Users\User\Desktop\5ano\Projeto\Connectivity_matrix\VOI_DynConn';
 if ~exist(saveFig1Path, 'dir')
     mkdir(saveFig1Path);
 end
@@ -49,13 +49,22 @@ corr_lower = tril(auxMat, -1);
 
 corr_upper = corr_lower';
 corr = corr_lower +corr_upper;
+aux = eye(6);
+aux(eye(6)==1) = nan;
+corr = corr+aux;
 
 fig = figure;
 set(gcf, 'Position', [50 50 1100 900]);
  
-im = imagesc(corr, [0 1]);
+%im = imagesc(corr, [0 1]);
+imAlpha=ones(size(corr));
+imAlpha(isnan(corr))=0;
+imagesc(corr,'AlphaData',imAlpha);
+set(gca,'color',[1 1 1]);
+
 h = colorbar('eastoutside');
 xlabel(h, 'p-value', 'FontSize', 20);
+caxis([0 1])
 
 % Title
 title('Pre-effect block')
@@ -89,13 +98,21 @@ corr_lower = tril(auxMat, -1);
 
 corr_upper = corr_lower';
 corr = corr_lower +corr_upper;
+aux = eye(6);
+aux(eye(6)==1) = nan;
+corr = corr+aux;
 
 fig = figure;
 set(gcf, 'Position', [50 50 1100 900]);
 % 
-im = imagesc(corr, [0 1]);
+%im = imagesc(corr, [0 1]);
+imAlpha=ones(size(corr));
+imAlpha(isnan(corr))=0;
+imagesc(corr,'AlphaData',imAlpha);
+set(gca,'color',[1 1 1]);
 h = colorbar('eastoutside');
 xlabel(h, 'p-value', 'FontSize', 20);
+caxis([0 1])
 
 % Title
 title('Effect block')
@@ -130,13 +147,21 @@ corr_lower = tril(auxMat, -1);
 
 corr_upper = corr_lower';
 corr = corr_lower +corr_upper;
+aux = eye(6);
+aux(eye(6)==1) = nan;
+corr = corr+aux;
 
 fig = figure;
 set(gcf, 'Position', [50 50 1100 900]);
 % 
-im = imagesc(corr, [0 1]);
+%im = imagesc(corr, [0 1]);
+imAlpha=ones(size(corr));
+imAlpha(isnan(corr))=0;
+imagesc(corr,'AlphaData',imAlpha);
+set(gca,'color',[1 1 1]);
 h = colorbar('eastoutside');
 xlabel(h, 'p-value', 'FontSize', 20);
+caxis([0 1])
 
 % Title
 title('Post-effect block')
