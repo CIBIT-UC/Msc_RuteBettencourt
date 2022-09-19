@@ -9,13 +9,13 @@ library("car")
 library("R.matlab")
 library("sjlabelled")
 library("plotly")
-library("xlsx")
+#library("xlsx")
 #library("tidyverse")
 library(rstatix)
 
 # Import data from matlab
 setwd("/Users/alexandresayal/GitHub/Msc_RuteBettencourt/Dynamic Connectivity")
-matlabFile = readMat("outputForR/FEF_bilateral--Insula_right.mat")
+matlabFile = readMat("outputForR/Insula_right--V3A_bilateral.mat")
 
 #setwd("/Users/alexandresayal/GitHub/Msc_RuteBettencourt/VOI_analysis")
 #matlabFile = readMat("outputForR/SS_FEF--SS_hMT.mat")
