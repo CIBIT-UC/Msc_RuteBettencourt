@@ -15,7 +15,10 @@ library(rstatix)
 
 # Import data from matlab
 setwd("/Users/alexandresayal/GitHub/Msc_RuteBettencourt/Dynamic Connectivity")
-matlabFile = readMat("outputForR/FEF_bilateral--hMT_bilateral.mat")
+matlabFile = readMat("outputForR/FEF_bilateral--Insula_right.mat")
+
+#setwd("/Users/alexandresayal/GitHub/Msc_RuteBettencourt/VOI_analysis")
+#matlabFile = readMat("outputForR/SS_FEF--SS_hMT.mat")
 
 # Select algorithm
 my_data1 = as.data.frame(matlabFile)
@@ -29,7 +32,12 @@ my_data1$Effect = factor(my_data1$Effect,
                       labels = c("NegativeHyst","PositiveHyst"))
 my_data1$Time = factor(my_data1$Time,
                     levels = c(1,2,3),
-                    labels = c("Pre","Effect","Post"))
+                    labels = c("Pre","EffectB","Post"))
+
+# Summary stats
+my_data1 %>%
+  group_by(Time, Effect) %>%
+  get_summary_stats(spearmanC, type = "mean_sd")
 
 # Line plots with multiple groups
 ggboxplot(my_data1,
@@ -57,5 +65,5 @@ results.aov2 = aov(spearmanC ~ Time * Effect, data = my_data1)
 summary(results.aov2)
 
 # Multiple comparison - Tukey - Post-hoc
-tukey1 = TukeyHSD(results.aov2)
-
+tukey1 = TukeyHSD(results.aov2,"Time", ordered = TRUE)
+tukey1

@@ -11,11 +11,11 @@ Effect = [1 2];
 EffectLabels = {'NegativeHyst','PositiveHyst'};
 EffectSamples = [50 60];
 
-regions = {'FEF_bilateral','IPS_bilateral','Insula_right','SPL_bilateral','V3A_bilateral','hMT_bilateral','SS_hMT_bilateral', 'Sph_hMT_SS_bilateral'};
+regions = {'FEF_bilateral','IPS_bilateral','Insula_right','SPL_bilateral','V3A_bilateral','hMT_bilateral'};
 
 %% Output matrix
 
-OUT = zeros(EffectSamples(1)*nTime+EffectSamples(2)*nTime,3); % column 1 - effect , column 2 - time , column 2 - data
+OUT = zeros(EffectSamples(1)*nTime+EffectSamples(2)*nTime,3); % column 1 - effect , column 2 - time , column 3 - data
 
 OUT(1:EffectSamples(1)*nTime,1) = 1;
 OUT(EffectSamples(1)*nTime+1:end,1) = 2;
